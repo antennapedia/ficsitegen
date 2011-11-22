@@ -1,0 +1,15 @@
+<!DOCTYPE NETSCAPE-Bookmark-file-1>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+<!-- This is an automatically generated file.
+It will be read and overwritten.
+Do Not Edit! -->
+%title Bookmarks
+%h1 Bookmarks
+%dl
+	%p
+		- site = self['site']
+		- self['stories'].each do |story|
+			%dt
+				%a{ :href => "#{site.url}#{story.url}", :add_date => story.publicationDateTime.to_time.to_i, :private => 0, :tags => story.emitCategorizedTags } #{story.title}
+			%dd
+				#{story.summary}

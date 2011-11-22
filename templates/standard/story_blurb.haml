@@ -1,0 +1,8 @@
+- story = self['story']
+%div.story_summary
+	%a.storytitle{:title => "Tags: #{story.taglist()}", :href => story.url(self['absoluteUrl'])} 
+		"#{story.title}"
+	\- #{story.printablePairing}, #{story.emitRating}<br />
+	#{story.summary} #{story.wordcount} words. <i>#{story.short_date()}</i>.
+	- if self['includeSeries'] && story.series != nil
+		Part of <a href="#{story.series.url()}"><span class="seriestitle">#{story.series.title}</span></a>.

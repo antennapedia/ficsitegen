@@ -1,0 +1,21 @@
+- site = self['site']
+- series = self['series']
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+%head
+	%title
+		#{site.title} :: #{series.title} - #{series.printablePairing}
+%body
+	- if self['bannertag']
+		%img{:src => self['bannertag']}
+	%h1= series.title
+	%p
+		by #{self['author']}
+	%p= series.printablePairing
+	<p>#{series.summary} <i>#{self['wordcount']} words total.</i></p>
+	
+	- series.storiesInOrder.each do |story|
+		= self['_page'].include('story_blurb.haml', {'story'=>story})
+		<br />
+	
+</html>

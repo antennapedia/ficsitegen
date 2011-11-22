@@ -1,0 +1,104 @@
+!!! strict
+- site = self['site']
+- story = self['story']
+%html
+	%head
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>#{site.title} :: #{story.title} :: #{story.printablePairing}</title>
+		<meta name="generator" content="The Dread Machine 0.1" />
+		<link rel="stylesheet" rev="stylesheet" href="../css/styles.css" />
+		<link rel="alternate" type="application/atom+xml"  href="/feeds/recent.atom" />
+		- banner = story.getBanner
+		- if banner != nil && banner.width != nil
+			- width = Integer(banner.width)
+			- pad = 20 + width
+			- w = 880 - width
+			- h = 10 + Integer(banner.height)
+			%style{:type => "text/css"}
+				:sass
+					#nav
+					  background-image: url(#{banner.url})
+					  background-repeat: no-repeat
+					  background-color: black
+					  color: white
+					  position: relative
+					  padding: 10px 10px 10px #{pad}px
+					  width: #{w}px
+					  min-height: #{banner.height}px
+	
+	%body
+		%div#nav
+			= self['_page'].include('navigation.haml', {'fandoms'=> self['fandoms'], 'loc'=>'story'})
+			%h2
+				- if story.series
+					%i= #{story.series.title}:
+				#{story.title}
+			%p= story.summary
+			%div.info
+				- result = ''
+				- story.pairings.each do |p|
+					- cleaned = self['_page'].cleanForJavascript(p.name)
+					- result = result + "<a href=\"../pairings.html\##{cleaned}\">#{p.printable}</a>" + ', '
+				#{result.chomp(', ')}<br />
+				<a href="../acknowledgments.html#ratings"><i>#{story.emitRating}</i></a>,
+				- if story.warnings == 'none'
+					no warnings
+				- else
+					#{story.warnings}
+				<br />
+				= self['_page'].include('_story_tags.haml', {'story'=> story, '_page' => self['_page'] })
+				| tags
+				- if banner != nil && banner.width != nil
+					<br />#{banner.alt} (<a href="#{banner.link}">link</a>)
+				<br /><br />#{story.wordcount} words
+				- if story.sections.size == 1
+					| <a href="#{story.sections[0].altlink}">LJ discussion</a>
+				- if story.commentary
+					| <a href="#{story.commentary}">commentary</a>
+				- if story.awards
+					| <a href="#awards">awards</a>
+		
+		%div#content
+			- if story.series
+				%div#storylinks
+					<a href="#{story.series.relativeurl()}" class="series">#{story.series.title}</a> :
+					- i = 1
+					- story.series.storiesInOrder.each do |s|
+						<a href="#{s.relativeurl()}">#{i}. #{s.title}</a>
+						- i = i+1
+						- if i <= story.series.stories.size
+							|
+			- if story.sections.size > 1
+				- i = 0
+				%div#storylinks
+					- story.sections.each do |segment|
+						<a href="##{segment.idtag()}">#{segment.title}</a> :
+						<a href="#{segment.altlink}">discussion</a>
+						- i = i+1
+						- if i < story.sections.size
+							|
+			%div#storybody
+				- if story.previousInSeries
+					<p>Continued from <a href="#{story.previousInSeries.relativeurl}">#{story.previousInSeries.title}</a></p>
+					<hr class="lightrule" />
+				- story.sections.each do |segment|
+					- if story.sections.size > 1
+						<h3 id="#{segment.idtag()}">#{segment.title}</h3>
+					#{segment.formattedContent}
+				- if story.nextInSeries
+					<hr class="lightrule" />
+					<p>Continued in <a href="#{story.nextInSeries.relativeurl}">#{story.nextInSeries.title}</a></p>
+	
+				%div#storylinks
+					<p><i>#{story.long_date}</i></p>
+					- if story.notes
+						%p= story.notes
+					= self['_page'].include('navigation.haml', {'fandoms'=> self['fandoms'], 'loc'=>'story'})
+				- if story.awards
+					%p= story.awards
+		
+			<hr />
+			%p
+				<small><a href="acknowledgments.html">Credits, acknowledgments, and disclaimers.</a></small>
+		= self['_page'].include('tracking.haml', {})
+

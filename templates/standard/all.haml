@@ -1,0 +1,98 @@
+!!! strict
+- site = self['site']
+- fandoms = self['fandoms']
+- stories = self['stories']
+%html
+	%head
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>#{site.title} :: fanfiction</title>
+		<meta name="generator" content="The Dread Machine 0.1" />
+		<link rel="stylesheet" rev="stylesheet" href="css/styles.css" />
+		<link rel="alternate" type="application/atom+xml"  href="/feeds/recent.atom" />
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+		<script type="text/javascript" src="scripts/jquery.metadata.js"></script> 
+		<script type="text/javascript" src="scripts/jquery.tablesorter.min.js"></script> 
+		:javascript 
+			$.tablesorter.addParser({ 
+				id: 'titles', 
+				is: function(v) { 
+					return false; 
+				}, 
+				format: function(v) { 
+					if (!v) return '';
+					v = v.replace(/^(The|A|An)\s+/i, "");
+					return v.toLowerCase();
+				}, 
+				// set type, either numeric or text 
+				type: 'text' 
+			}); 
+			$.tablesorter.addParser({ 
+				id: 'ratings', 
+				is: function(v) { 
+					return false; 
+				}, 
+				format: function(v) { 
+					if (v == "general") return 0;
+					if (v == "mature") return 1;
+					if (v == "adult") return 2;
+					return 4;
+				}, 
+				type: 'numeric' 
+			}); 
+			$.tablesorter.addParser({ 
+				id: 'counts', 
+				is: function(v) { 
+					return false; 
+				}, 
+				format: function(v) { 
+					v = v.replace(/,/g, "");
+					v = v.replace(/(&nbsp;)$/, "");
+					return v;
+				}, 
+				type: 'numeric' 
+			}); 
+			$(document).ready(function() { 
+				$("#stories").tablesorter({
+					widgets: ['zebra', ],
+					headers: { 
+						0: { sorter:'titles' }, 
+						2: { sorter:'ratings' }, 
+						3: { sorter:'counts' },
+					} 
+				}); 
+			} ); 
+
+	%body
+		%div#nav
+			= self['_page'].include('navigation.haml', {'fandoms'=> fandoms, 'loc'=>'all'})
+			<p style="position:absolute; bottom:0px;">Click on a table header to sort the listing by that story attribute.</p>
+		%div#content
+			%table#stories.tablesorter{:border=>0, :cellspacing=>0, :cellpadding=>1}
+				%thead
+					%tr
+						%th.title Title
+						%th Pairing
+						%th.rating Rating&nbsp;
+						%th{:style => "text-align: right; padding-right: 1em;"} Wordcount
+						%th Date
+				%tbody
+					- stories.each do |story|
+						%tr
+							%td.title <a id="#{story.idtag()}" href="#{story.url()}" title="#{self['_page'].escapeForJavascript(story.summary, false, true)}">#{story.title}</a>
+							%td= story.printablePairing
+							%td.rating= story.rating
+							%td{:style => "text-align: right; padding-right: 1em;"} #{story.wordcountFormatted}&nbsp;
+							%td= story.numeric_date
+			
+				%tfoot
+					%tr
+						%th.title Title
+						%th Pairing
+						%th.rating Rating
+						%th{:style => "text-align: right; padding-right: 2em;"} Wordcount
+						%th Date
+			<hr />
+			%p
+				<small><a href="acknowledgments.html">Credits, acknowledgments, and disclaimers.</a></small>
+		= self['_page'].include('tracking.haml', {})
+	

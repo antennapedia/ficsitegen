@@ -1,0 +1,70 @@
+!!! strict
+- site = self['site']
+- stories = self['stories']
+- tagl = self['pairings']
+- sizes = self['sizes']
+%html
+	%head
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>#{site.title} :: pairings</title>
+		<meta name="generator" content="The Dread Machine 0.1" />
+		<link rel="stylesheet" rev="stylesheet" href="css/styles.css" />
+		<link rel="alternate" type="application/atom+xml"  href="/feeds/recent.atom" />
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+		<script type="text/javascript" src="scripts/jquery.masonry.js"></script>
+		:javascript
+			$(document).ready(function()
+			{
+				frag = location.hash.substring(1).toLowerCase();
+				if (frag.length > 0)
+				{
+					frag = unescape(frag);
+					displayTagContents(frag);
+				}
+
+				$('#tags').masonry({columnWidth: 5});
+			});
+
+			var tagdata = new Array();
+			#{self['jscript']}
+			function displayTagContents(id)
+			{
+				$('.tag_selected').removeClass('tag_selected');
+				$('#'+tagdata[id]['link']).addClass('tag_selected');
+				$('.tag_contents').hide();
+				window.location.hash = id;
+				var contents = tagdata[id]['contents'];
+				for (i = 0; i < contents.length; ++i)
+				{
+					$("#"+contents[i]).fadeIn('slow');
+				}
+				var msg = tagdata[id]['name'] + ": "+contents.length;
+				if (contents.length == 1)
+					msg += " story";
+				else
+					msg += " stories";
+				$("#tag_count_display").html(msg);
+			}
+
+	%body
+		%div#nav
+			= self['_page'].include('navigation.haml', {'fandoms'=> self['fandoms'], 'loc'=>'pairings'})
+			%h1 Stories by pairing
+		%div#content
+			%div#tags
+				- tagl.each do |t|
+					- cleaned = self['_page'].cleanForJavascript(t.name, true, true)
+					%div.tag{:style=>"font-size: #{sizes[t]}%;", :id =>"#{cleaned}_link"}
+						<a href="#" onclick="displayTagContents('#{cleaned}'); return false;">#{t.name}</a>
+			%div#tag_listing
+				%p#tag_count_display= "Click a pairing name to see stories featuring it."
+				- stories.each do |story|
+					%div.tag_contents{:id => "#{story.idtag()}", :style => "display: none;"}
+						= self['_page'].include('story_blurb.haml', {'story'=>story, 'absoluteUrl' => true})
+				
+			<br clear="both" />	
+			<hr />
+			%p
+				<small><a href="acknowledgments.html">Credits, acknowledgments, and disclaimers.</a></small>
+		= self['_page'].include('tracking.haml', {})
+

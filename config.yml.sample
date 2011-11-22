@@ -1,0 +1,16 @@
+:site:
+    :templates: templates/standard/
+    :input: examples
+    :output: site
+
+:sqlite:
+    :dbfile: myficsite.db
+
+:redis:
+    :host: localhost
+    :port: 6379
+    :db: 1
+
+:mongo:
+    :host: localhost
+    :db: myficsite_db

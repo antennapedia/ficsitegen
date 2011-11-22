@@ -1,0 +1,16 @@
+- site = self['site']
+- series = self['series']
+- story = self['story']
+- segment = self['segment']
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+%head
+	%title
+		- if series
+			#{series.title} :: #{story.title}
+		- else
+			#{story.title}
+%body
+	%h3{ :id => segment.idtag}= segment.title
+	#{segment.formattedContent}
+</html>

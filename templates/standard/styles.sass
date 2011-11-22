@@ -1,0 +1,281 @@
+@import url(http://fonts.googleapis.com/css?family=Lato:900,300,400)
+
+$backgroundcolor: white
+$foregroundcolor: black
+$darkestcolor: #36362c
+$darkercolor: #825534
+$contrastcolor: #5d917d
+$mediumcolor: #a8ad80
+$lightestcolor: #e6d4a7
+$faintcolor: #eeeeee
+
+html
+	height: 100%
+
+body
+	font-family: Lato, "GillSans-Light", "Gill Sans", sans-serif
+	font-weight: 300
+	font-size: 10pt
+	margin-left: 50px
+	margin-right: 50px
+	height: 100%
+	background-color: $backgroundcolor
+	color: $foregroundcolor
+
+#content
+	max-width: 900px
+
+#nav
+	background-image: url(chen_comic_header.jpg)
+	background-repeat: no-repeat
+	background-position: 10px 10px
+	background-color: $foregroundcolor
+	color: $backgroundcolor
+	padding-left: 394px
+	padding-right: 5px
+	max-width: 501px
+	padding-top: 10px
+	min-height: 234px
+	position: relative
+
+
+a
+	text-decoration: none
+	color: $contrastcolor
+	font-weight: 400
+
+	&:active
+		color: $contrastcolor
+
+	&:visited
+		color: $mediumcolor
+
+	&:hover, &:visited:hover
+		text-decoration: underline
+
+
+#nav
+	a
+		text-decoration: none
+		color: $contrastcolor
+		font-weight: 400
+
+		&:active
+			color: $contrastcolor
+
+		&:visited
+			color: $mediumcolor
+
+		&:hover, &:visited:hover
+			text-decoration: underline
+
+		&.series
+			font-weight: 400
+			font-style: italic
+
+	h1
+		font-weight: 900
+		position: absolute
+		bottom: 0px
+
+	h2
+		font-size: 1.75em
+		font-weight: 900
+		margin-top: .25em
+
+	.info
+		line-height: 125%
+
+
+.sitetitle
+	font-size: larger
+
+.story_summary
+	-webkit-border-radius: 10px
+	-moz-border-radius: 10px
+	border-radius: 10px
+	margin-top: .5em
+	margin-right: .5em
+	padding: .3em
+	background-color: $faintcolor
+
+#fandomlisting
+	width: 900px
+	-webkit-column-rule: none
+	-webkit-column-width: 450px
+	-webkit-column-gap: 0px
+	-moz-column-rule: none
+	-moz-column-width: 450px
+	-moz-column-gap: 0px
+
+	.storysummary
+		-webkit-column-break-inside: avoid
+		-moz-column-break-inside: avoid
+
+#storylisting
+	width: 850px
+	min-height: 400px
+
+	.story_summary
+		width: 374px
+
+#banner
+	margin-top: 10px
+
+
+#storylinks
+	font-size: .85em
+	background-color: $foregroundcolor
+	color: white
+	margin: 0 auto
+	text-align: left
+	width: 892px
+	margin-top: 5px
+	padding: 8px 0 8px 8px
+
+	a
+		color: $contrastcolor
+		font-weight: 400
+		letter-spacing: 1px
+		text-decoration: none
+		margin-top: 2px
+
+
+.storylinks a:visited
+	color: $mediumcolor
+	font-weight: 400
+	letter-spacing: 1px
+	text-decoration: none
+	margin-top: 2px
+
+
+#storylinks a:hover
+	background: #101010 none repeat scroll 0 0
+	color: $mediumcolor
+
+
+#storybody
+	margin-top: 10px
+	max-width: 900px
+
+
+h2
+	font-weight: 900
+	font-size: 1.5em
+
+
+h3
+	font-weight: 900
+	font-size: 1.25em
+
+
+.ctary
+	font-style: italic
+	padding: 5px
+	background-color: $foregroundcolor
+	border: 1px solid $contrastcolor
+
+
+.ctary_inline
+	font-style: italic
+	background-color: $foregroundcolor
+
+
+img
+	border-style: none
+
+
+hr
+	border: none
+	color: $mediumcolor
+	background-color: $mediumcolor
+	height: 1px
+
+	&.faint
+		color: $foregroundcolor
+		background-color: $foregroundcolor
+		border: 1px dotted $lightestcolor
+		border-style: none none dotted
+
+
+blockquote
+	font-style: italic
+	color: $darkestcolor
+
+
+.storytitle
+	font-weight: 400
+
+.seriestitle
+	font-weight: 400
+
+
+#tags
+	width: 383px
+	float: left
+	padding-right: 1em
+
+
+#tag_listing
+	margin-left: 394px
+
+.tag
+	display: inline
+	padding: 3px
+	color: $darkestcolor
+	background-color: $backgroundcolor
+	-webkit-border-radius: 7px
+	-moz-border-radius: 7px
+	border-radius: 7px
+	&:hover, &:visited:hover
+		color: $backgroundcolor
+		background-color: $contrastcolor	
+	&:active
+		color: $mediumcolor
+		background-color: $contrastcolor
+
+.tag a
+	text-decoration: none
+	color: inherit
+	background-color: inherit
+
+.tag_selected
+	color: $backgroundcolor
+	background-color: $darkestcolor
+
+table.tablesorter
+	background-color: $foregroundcolor
+	margin: 1em
+	text-align: left
+
+	thead tr th, tfoot tr th
+		background-color: $mediumcolor
+		color: $foregroundcolor
+		font-weight: 400
+		padding: .25em
+		cursor: pointer
+
+	thead tr .header
+		background-image: url(bg.gif)
+		background-repeat: no-repeat
+		background-position: center right
+		cursor: pointer
+	
+	td
+		padding-right: 20px
+		padding-bottom: 3px
+	
+	.even
+		background-color: $backgroundcolor
+	
+	.odd
+		background-color: $faintcolor
+
+	thead tr
+		.headerSortUp
+			background-image: url(asc.gif)
+			background-color: $contrastcolor
+
+		.headerSortDown
+			background-image: url(desc.gif)
+			background-color: $contrastcolor

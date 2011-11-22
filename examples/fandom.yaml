@@ -1,0 +1,14 @@
+--- !ruby/object:FandomYaml
+idtag: fandom_tag
+title: Descriptive Name of Fandom
+description: A blurb for the fandom, used on the fandom listing page. The title is also used in the listing. The idtag is used in story files to link a story to its fandom. Two examples follow.
+
+--- !ruby/object:FandomYaml
+idtag: doctor_who
+title: Doctor Who
+description: The adventures of a madman in a blue box.
+
+--- !ruby/object:FandomYaml
+idtag: sherlock_holmes
+title: Sherlock Holmes
+description: The adventures of the world's first (perhaps only) consulting detective, and his intrepid biographer.

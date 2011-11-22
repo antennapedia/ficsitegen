@@ -1,0 +1,15 @@
+source "http://rubygems.org"
+
+gem 'bluecloth'
+gem 'choice'
+gem 'gepub'
+gem 'haml'
+gem 'htmlentities'
+gem 'sass'
+gem 'datamapper'
+gem 'dm-sqlite-adapter'
+gem 'dm-ar-finders'
+gem 'do_sqlite3'
+gem 'ohm'
+gem 'bson_ext'
+gem 'mongoid'

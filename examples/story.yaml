@@ -1,0 +1,19 @@
+author: authorname
+title: Title of Story
+rating: adult OR mature OR general audiences
+summary: Summary.
+notes: Notes.
+pairing_main: character1/character2 OR gen
+warnings: none
+published: August 25 2008 04:48pm PDT
+pairings:
+    - character1/character2
+tags:
+    - tag1
+    - tag2
+    - really long tag with spaces in it
+altlink: http://example.livejournal.com/11111.html
+content: | 
+    Story content, indented 4 spaces as required by yaml.
+
+    This content can be [markdown](http://daringfireball.net/projects/markdown/) or html as desired.

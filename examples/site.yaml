@@ -1,0 +1,8 @@
+--- !ruby/object:SiteYaml
+title: Title of Fic Site
+subtitle: Subtitle of the fic site.
+url: http://example.com/
+description: |
+    <p>HTML containing whatever you'd like to say about the site. This html is displayed on the site's index page.</p>
+
+

@@ -1,0 +1,35 @@
+!!! strict
+- site = self['site']
+- fandoms = self['fandoms']
+%html
+	%head
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>#{site.title} :: fanfiction</title>
+		<meta name="generator" content="The Dread Machine 0.1" />
+		<link rel="stylesheet" rev="stylesheet" href="css/styles.css" />
+		<link rel="alternate" type="application/atom+xml"  href="/feeds/recent.atom" />
+	%body
+		%div#nav
+			<p class="sitetitle"><span style="font-size: 2em;">#{site.title}</span><br />
+			#{site.subtitle}</p>
+			#{site.description}
+			= self['_page'].include('navigation.haml', {'fandoms'=> nil, 'loc'=>'top'})
+			<br />
+		%div#content
+			<p>#{self['count']} stories totalling #{self['wordcount']} words.</p>
+			- fandoms.each do |fandom|
+				%p
+					<i><a href="index_#{fandom.idtag}.html">#{fandom.title}</a>:</i>
+					#{fandom.stories.size} stories<br />
+					#{fandom.description}
+			<hr />
+			%p
+				Want to take the archive on the go? All the standalone stories are in 
+				<a href="stories/printable/all_stories.epub">this handy epub book.</a> 
+				Each series is also available as an epub file; see the table of contents 
+				page for a series you're interested in for the link.
+			%p
+				<small><a href="acknowledgments.html">Credits, acknowledgments, and disclaimers.</a><br />
+				<i>Last updated #{self['datestamp']}.</i></small>
+		= self['_page'].include('tracking.haml', {})
+	

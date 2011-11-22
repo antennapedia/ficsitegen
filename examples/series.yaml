@@ -1,0 +1,46 @@
+--- !ruby/object:SeriesYaml
+idtag: series_tag
+title: A Story Series
+summary: This is the summary or teaser for the series.
+pairing_main: Character 1/Character 2
+
+--- !ruby/object:SeriesYaml
+idtag: series2
+title: Series Two
+summary: A summary or teaser for the series.
+pairing_main: gen
+bannerurl: http://example.com/url/for/banner.jpg
+
+---
+author: authorname
+title: Series Part 1
+rating: general audiences
+summary: The action begins.
+notes: Notes
+pairing_main: gen
+series-tag: series2
+series-order: 1
+warnings: none
+published: August 25 2010 04:48pm PDT
+tags:
+    - tag1
+    - tag2
+content: | 
+    This is the first story in the series.
+
+---
+author: authorname
+title: Series Part 2
+rating: general audiences
+summary: The action continues.
+notes: Notes
+pairing_main: gen
+series-tag: series2
+series-order: 2
+warnings: none
+published: August 26 2010 04:48pm PDT
+tags:
+    - tag2
+    - tag3
+content: | 
+    This is the second story in the series.

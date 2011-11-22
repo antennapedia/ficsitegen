@@ -1,0 +1,33 @@
+!!!strict
+- site = self['site']
+- series = self['series']
+%html
+	%head
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>#{site.title} :: #{series.title} - #{series.printablePairing}</title>
+		<meta name="generator" content="The Dread Machine 0.1" />
+		<link rel="stylesheet" rev="stylesheet" href="../css/styles.css" />
+		<link rel="alternate" type="application/atom+xml"  href="/feeds/recent.atom" />
+	%body
+		
+		%h1= #{series.title}
+		%p= #{series.summary}
+		%ol
+			- series.storiesInOrder.each do |story|
+				<li><a href="##{story.idtag}">#{story.title}</a>
+				- if story.sections.size > 1
+					%ul
+						- story.sections.each do |segment|
+							<li><a href="##{segment.idtag}">#{segment.title}</a></li>
+				</li>
+		
+		- series.storiesInOrder.each do |story|
+			<h2 id="#{story.idtag}">#{story.title}</h2>
+			
+			- story.sections.each do |segment|
+				- if story.sections.size > 1
+					<h3 id="#{segment.idtag}">#{segment.title}</h3>
+				#{segment.formattedContent}
+
+		= self['_page'].include('tracking.haml', {})
+	

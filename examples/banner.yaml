@@ -1,0 +1,5 @@
+--- !ruby/object:BannerYaml
+url: http://example.com/url/for/banner.jpg
+width: 520
+height: 240
+alt: Alt text for the banner.

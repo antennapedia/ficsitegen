@@ -1,0 +1,6 @@
+- tagl = self['story'].tagsSorted
+- result = ''
+- tagl.each do |t|
+	- result = result + "<a href=\"../tags.html\##{self['_page'].cleanForJavascript(t.name)}\">#{t.name}</a>, "
+- result.chomp!(', ')
+= result

@@ -1,0 +1,18 @@
+!!! strict
+- site = self['site']
+%html
+	%head
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>#{site.title} :: #{self['pagetitle']}</title>
+		<meta name="generator" content="The Dread Machine 0.1" />
+		<link rel="stylesheet" rev="stylesheet" href="css/styles.css" />
+		<link rel="alternate" type="application/atom+xml"  href="/feeds/recent.atom" />
+	%body
+		%div#nav
+			= self['_page'].include('navigation.haml', {'fandoms'=> nil, 'loc'=>'about'})
+			%h1= self['pagetitle']
+		%div#content
+			:markdown
+				#{self['content']}
+
+		= self['_page'].include('tracking.haml', {})
