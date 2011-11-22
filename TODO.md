@@ -4,6 +4,7 @@
 * Write a second set of sample templates. Generalize as needed.
 * Naming & code formatting consistency.
 * Clean up some data-specific hacks still present. (E.g., tag massaging for external bookmarks file generation.)
+* Consider couchdb & riak storage versions as explorations of those databases.
 * Consider that web application for data input.
 * Better organization for epub files.
 * PDF generation?

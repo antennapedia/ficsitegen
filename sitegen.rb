@@ -273,6 +273,24 @@ def formatLongNumber(number)
 end
 
 #-------------------------------------------------------------------------------
+def analyzeTags
+	tags = Tag.allSorted
+	tags.each do |tag|
+		#puts "tag: #{tag.name}"
+		storyl = Story.taggedWith(tag)
+		count = storyl.size
+		if count == 0
+			puts "#{tag.name}:   destroying from db"
+			tag.destroy
+		elsif count == 1
+			puts "#{tag.name}:    prune"
+		else
+			# puts "    #{count}"
+		end	
+	end
+end
+
+#-------------------------------------------------------------------------------
 # configuration file
 
 def readConfiguration
@@ -369,6 +387,12 @@ def handleOptions
 			default false
 		end
 		
+		option :analyzetags do
+			long '--tags'
+			desc 'Do not parse story files, just perform tag analysis & cleanup'
+			default false
+		end
+		
 		separator ''
 		option :help do
 			short '-h'
@@ -403,5 +427,10 @@ if $0 == __FILE__
 		puts "Using sqlite for storage."
 		require 'datamapper-models'
 	end
-	main(Choice.choices)
+
+	if Choice.choices[:analyzetags]
+		analyzeTags
+	else
+		main(Choice.choices)
+	end
 end
