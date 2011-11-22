@@ -39,7 +39,10 @@ class Tag < Ohm::Model
 	end
 
 	def self.allSorted
-		tagl = Tag.all()
+		ids = Tag.all()
+		# Nothing but sugar to go from an ohm index to an array, 
+		# so we can sort by our complicated rules.
+		tagl = ids.map{|t| t}.compact
 		tagl.sort!
 		tagl
 	end

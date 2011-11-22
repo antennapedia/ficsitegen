@@ -27,7 +27,8 @@ class Tag
 	end
 
 	def self.allSorted
-		tagl = Tag.all()
+		ids = Tag.all()
+		tagl = ids.map{|t| t}.compact
 		tagl.sort!
 		tagl
 	end

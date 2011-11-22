@@ -73,8 +73,8 @@ end
 def parseAllStoryFiles(lastmod, refresh)
 	dirty = false
 	baseinput = File.join($input, "**", "*.yaml")
-	followSymlinkOnce = File.join($input, "**", "*", "**", "*.yaml")
-	Dir.glob([baseinput, followSymlinkOnce]).each do |f|
+	#followSymlinkOnce = File.join($input, "**", "*", "**", "*.yaml")
+	Dir.glob([baseinput, ]).each do |f|
 		begin
 			fp = File.open(f)
 			modtime = fp.mtime.to_datetime
@@ -275,19 +275,22 @@ end
 #-------------------------------------------------------------------------------
 def analyzeTags
 	tags = Tag.allSorted
+	singleUseTags = []
 	tags.each do |tag|
 		#puts "tag: #{tag.name}"
 		storyl = Story.taggedWith(tag)
 		count = storyl.size
 		if count == 0
-			puts "#{tag.name}:   destroying from db"
+			puts "#{tag.name}:   no uses, pruning"
 			tag.destroy
 		elsif count == 1
-			puts "#{tag.name}:    prune"
+			singleUseTags << tag.name
 		else
 			# puts "    #{count}"
 		end	
 	end
+	puts "The following tags are used only once:"
+	pp singleUseTags
 end
 
 #-------------------------------------------------------------------------------
