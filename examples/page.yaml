@@ -1,0 +1,9 @@
+--- !ruby/object:StaticPageYaml
+page: pagefilename
+title: Title of the static page
+content: |
+	Content of the static page goes here. This can be html or markdown-formatted text.
+	
+	This can be used to generate pages that aren't for fic & that change rarely, such as credits & acknowledgments. These pages use the template named "static.haml", so style updates can be easily regenerated. 
+	
+	This page would be created as "pagefilename.html". 
