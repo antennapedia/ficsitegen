@@ -6,18 +6,15 @@ The tool comes in several flavors depending on the database you'd like to use fo
 
 ## Prerequisites
 
-To install, just run bundle:
+The prerequisites are listed in the Gemfile. To install, use bundler:
 
 	bundle install
 
-Required gems for the core: bluecloth choice gepub haml htmlentities sass
+Required gems for the core: bluecloth choice gepub haml htmlentities sass  
+Datamapper version: datamapper dm-sqlite-adapter dm-ar-finders  
+Redis version: redis nest ohm  
+Mongo version: mongo bson_ext mongoid  
 
-Datamapper version: datamapper dm-sqlite-adapter dm-ar-finders	
-
-Redis version: redis nest ohm
-
-Mongo version: mongo bson_ext mongoid
-	
 ## Input
 
 Examples of valid input are in the examples/ directory.
@@ -30,26 +27,27 @@ Examples of valid input are in the examples/ directory.
 
 ## Configuration
 
-	$input
-	$output
+Copy the `config.yml.sample` file to `config.yml` and edit. You can ignore the sections for storage methods you don't intend to use.
 
 ## Runtime options
 
 Run without options to look for files modified since the last site update time.
 
 Data storage options:
-        --mongo                      Store data in mongodb via mongoid
-        --redis                      Store data in redis via ohm
-        --sqlite                     Store data in sqlite via datamapper [default]
+
+	--mongo                      Store data in mongodb via mongoid
+	--redis                      Store data in redis via ohm
+	--sqlite                     Store data in sqlite via datamapper [default]
 
 Parsing and page generation:
-    -p, --parse                      reparse all files
-    -i, --index                      regenerate all index files
-    -f, --feeds                      regenerate all feed files
-    -e, --epub                       regenerate all epub files
-    -g, --generate                   regenerate all html output files
-    -y, --year=YEAR                  generate story listing for the given year
-    -b, --bookmarks                  generate bookmarks file suitable for Pinboard import
 
-    -h, --help                       Show this message
-    -v, --version                    Show version
+	-p, --parse                      reparse all files
+	-i, --index                      regenerate all index files
+	-f, --feeds                      regenerate all feed files
+	-e, --epub                       regenerate all epub files
+	-g, --generate                   regenerate all html output files
+	-y, --year=YEAR                  generate story listing for the given year
+	-b, --bookmarks                  generate bookmarks file suitable for Pinboard import
+	
+	-h, --help                       Show this message
+	-v, --version                    Show version
