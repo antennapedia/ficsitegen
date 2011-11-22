@@ -286,8 +286,6 @@ module StoryMixin
 		return rating
 	end
 	
-	# TODO dataset-specific hack
-	$characters = [ 'giles', 'buffy', 'xander', 'ethan', 'anya', 'dawn', 'willow', 'jonathan', 'joyce', 'jenny', 'angel', 'angelus', 'kennedy', 'andrew', 'oz', 'spike', 'merrick', 'holmes', 'watson',  'riley', 'rose', 'tara', 'second doctor', 'ninth doctor', 'zoe heriot', 'jackie tyler' ]
 	# As suitable for use in an external bookmarking site.
 	def emitCategorizedTags
 		tags = []
@@ -301,8 +299,10 @@ module StoryMixin
 			tags << "pairing:#{p.name}"
 		end
 		self.tags.each do |t|
-			if t.category.start_with('c')
+			if !t.category.nil? && t.category.start_with?('c')
 				tags << "character:#{t.text}"
+			elsif !t.category.nil? && t.category.start_with?('f')
+				tags << "fandom:#{t.text}"
 			else
 				tags << "tag:#{t.name}"
 			end
