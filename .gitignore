@@ -4,3 +4,4 @@ Gemfile.lock
 input
 site
 test.rb
+.DS_Store
