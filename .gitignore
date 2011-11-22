@@ -5,3 +5,4 @@ input
 site
 test.rb
 .DS_Store
+.bundle

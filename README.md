@@ -9,11 +9,10 @@ The tool comes in several flavors depending on the database you'd like to use fo
 The prerequisites are listed in the Gemfile. To install, use bundler:
 
 	bundle install
+	
+The gems are grouped by storage method, so if you have no intention of using the nosql databases, for instance, you can install only the gems you want:
 
-Required gems for the core: bluecloth choice gepub haml htmlentities sass  
-Datamapper version: datamapper dm-sqlite-adapter dm-ar-finders  
-Redis version: redis nest ohm  
-Mongo version: mongo bson_ext mongoid  
+	bundle install --without redis mongo
 
 ## Input
 
