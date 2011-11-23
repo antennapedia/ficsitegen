@@ -4,6 +4,17 @@ At the time of this writing, story and site data is read from [yaml](http://www.
 
 The tool comes in several flavors depending on the database you'd like to use for storage: [sqlite](http://www.sqlite.org/) via [Datamapper](http://datamapper.org/), [Redis](http://redis.io/) via [ohm](http://ohm.keyvalue.org/), and [Mongodb](http://www.mongodb.org/) via [Mongoid](http://mongoid.org/).
 
+Site features:
+
+* per-fandom index pages
+* sortable listing for all stories
+* clouds for tags & pairings
+* atom/rss feed for the 10 most recent stories
+* epub versions of all content
+* automatic linking between stories in series
+
+I use this tool to generate [antennapedia.com](http://antennapedia.com). 
+
 ## Sample usage and ouput
 
 Edit input files, then run the script.
