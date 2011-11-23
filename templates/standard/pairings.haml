@@ -11,7 +11,7 @@
 		<link rel="stylesheet" rev="stylesheet" href="css/styles.css" />
 		<link rel="alternate" type="application/atom+xml"  href="/feeds/recent.atom" />
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
-		<script type="text/javascript" src="scripts/jquery.masonry.min.js"></script>
+		<script type="text/javascript" src="scripts/jquery.isotope.min.js"></script>
 		:javascript
 			$(document).ready(function()
 			{
@@ -22,7 +22,9 @@
 					displayTagContents(frag);
 				}
 
-				$('#tags').masonry({columnWidth: 5});
+				$('#tags').isotope( {
+					masonry: { columnWidth: 10 }
+				});
 			});
 
 			var tagdata = new Array();
