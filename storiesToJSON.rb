@@ -9,7 +9,7 @@ require 'pathname'
 require 'yaml'
 
 $output = 'json'
-$input = 'input'
+$input = 'input/stories'
 
 def main()
 	FileUtils.mkdir_p(Pathname.new($output))

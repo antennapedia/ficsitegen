@@ -72,9 +72,8 @@ end
 
 def parseAllStoryFiles(lastmod, refresh)
 	dirty = false
-	baseinput = File.join($input, "**", "*.yaml")
-	#followSymlinkOnce = File.join($input, "**", "*", "**", "*.yaml")
-	Dir.glob([baseinput, ]).each do |f|
+	Dir[File.join($input, "**", "*.yaml")].each do |f|
+		puts f
 		begin
 			fp = File.open(f)
 			modtime = fp.mtime.to_datetime
@@ -88,6 +87,7 @@ def parseAllStoryFiles(lastmod, refresh)
 			next
 		end
 	end
+	exit
 	return dirty
 end
 
