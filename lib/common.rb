@@ -157,11 +157,13 @@ module SeriesMixin
 	end
 	
 	def hasBanner
-		return (self.banner != nil) || (self.stories.first.banner != nil)
+		return (self.banner != nil) || 
+				((self.stories.size > 0) && (self.stories.first.banner != nil))
 	end
 	
 	def getBanner
 		return self.banner if self.banner != nil
+		return nil if self.stories.size == 0
 		return self.stories.first.banner if self.stories.first.banner != nil
 	end
 
@@ -368,8 +370,7 @@ module BannerMixin
 	end
 	
 	def fileloc
-		# TODO hack
 		pieces = URI.split(self.url)
-		return File.join('input/static', pieces[5])
+		return File.join($input, 'static', pieces[5])
 	end
 end

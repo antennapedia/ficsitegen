@@ -16,22 +16,23 @@
 			<p>#{fandom.stories.size} stories, totalling #{self['wordcount']} words. Stories are grouped by pairing.</p>
 
 		%div#content
-			- if fandom.stories.size > 10
-				<div id="fandomlisting">
 			- indexItems = fandom.indexItems
-			- lastpairing = indexItems[0].pairing_main.downcase
-			- indexItems.each do |item|
-				- if lastpairing != item.pairing_main.downcase
-					<hr class="lightrule" />
-					- lastpairing = item.pairing_main.downcase
-				- if item.class.name == "Series"
-					%p.story_summary
-						<a id="#{item.idtag}" href="#{item.url()}" title="Tags: #{item.taglist()}">
-						<i>#{item.title}</i></a> - #{item.printablePairing}<br />
-						#{item.summary} <i>#{item.stories.size} stories.</i>
-				- else
-					= self['_page'].include('story_blurb.haml', {'story'=>item, 'absoluteUrl' => true})
-			- if fandom.stories.size > 10
+			- if indexItems.size > 10
+				<div id="fandomlisting">
+			- if indexItems.size > 0
+				- lastpairing = indexItems[0].pairing_main.downcase
+				- indexItems.each do |item|
+					- if lastpairing != item.pairing_main.downcase
+						<hr class="lightrule" />
+						- lastpairing = item.pairing_main.downcase
+					- if item.class.name == "Series"
+						%p.story_summary
+							<a id="#{item.idtag}" href="#{item.url()}" title="Tags: #{item.taglist()}">
+							<i>#{item.title}</i></a> - #{item.printablePairing}<br />
+							#{item.summary} <i>#{item.stories.size} stories.</i>
+					- else
+						= self['_page'].include('story_blurb.haml', {'story'=>item, 'absoluteUrl' => true})
+			- if indexItems.size > 10
 				</div>
 			
 			<hr />

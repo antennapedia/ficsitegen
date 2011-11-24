@@ -247,6 +247,7 @@ class Series
 		self.stories.each do |s|
 			latest = s.published if latest == nil or s.published > latest
 		end
+		latest = Time.now if latest.nil?
 		return latest.strftime('%Y-%m-%d')
 	end	
 end
@@ -321,7 +322,7 @@ class Story
 	
 	def wouldBeInLatest
 		fencepost = Story.first(:limit => 1, :offset => 10, :order => [ :published.desc ])
-		return self.published > fencepost.published
+		return fencepost.nil? || self.published > fencepost.published
 	end
 
 	# authorLink

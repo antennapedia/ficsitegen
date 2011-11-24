@@ -87,7 +87,6 @@ def parseAllStoryFiles(lastmod, refresh)
 			next
 		end
 	end
-	exit
 	return dirty
 end
 
