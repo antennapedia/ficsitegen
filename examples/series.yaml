@@ -9,7 +9,7 @@ idtag: series2
 title: Series Two
 summary: A summary or teaser for the series.
 pairing_main: gen
-bannerurl: http://example.com/story_banner_example.png
+bannerurl: ../story_banner_example.png
 
 ---
 author: authorname
