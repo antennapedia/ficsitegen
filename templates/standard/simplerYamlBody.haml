@@ -1,22 +1,24 @@
 - story = self['story']
 %p
-	#{story.title}  
-	#{story.printablePairing}  
+	"#{story.title}"<br />
+	#{story.printablePairing}<br />
 	- if story.warnings
-		#{story.rating}, #{story.warnings}  
+		#{story.rating}, #{story.warnings}<br />
 	- else
-		#{story.rating}  
+		#{story.rating}<br />
 
 %p
-	= story.summary
+	%i
+		= story.summary
 
 <!-- more -->
+%hr
 - story.sections.each do |segment|
 	- if story.sections.size > 1
 		%h3{ :id => segment.idtag}= segment.title
 	#{segment.content}
 
 - if story.notes
-	<hr />
+	%hr
 	%p
 		#{story.notes}

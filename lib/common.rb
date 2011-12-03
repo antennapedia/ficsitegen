@@ -327,6 +327,41 @@ module StoryMixin
 		tags.sort.join(',')
 	end
 
+	def emitSimplerTags
+		tags = []
+		self.fandoms.each do |f|
+			tags << "fandom:#{f.idtag}"
+		end
+		self.pairings.each do |p|
+			tags << "pairing:#{p.name}"
+		end
+		self.tags.each do |t|
+			if !t.category.nil? && t.category.start_with?('c')
+				tags << "character:#{t.text}"
+			elsif !t.category.nil? && t.category.start_with?('f')
+				tags << "fandom:#{t.text}"
+			else
+				tags << "#{t.name}"
+			end
+		end
+		if self.wordcount <= 100
+			tags << "length:drabble"
+		elsif self.wordcount <= 1000
+			tags << "length:<1K"
+		elsif self.wordcount <= 7500
+			tags << "length:<7.5K"
+		elsif self.wordcount <= 17500
+			tags << "length:<17.5K"
+		elsif self.wordcount <= 40000
+			tags << "length:<40K"
+		else
+			tags << "length:novel"
+		end
+		tags << "rating:#{self.rating.downcase}"
+		tags << "fiction"
+		tags.sort.join(',')
+	end
+
 	def <=>(other)
 		if self.class == other.class
 			if (self.series != nil) && (self.series == other.series) && 
@@ -401,7 +436,7 @@ class SimplerStory
 		self.created = story.published
 		self.modified = story.modified
 		self.title = story.title
-		self.tags = story.emitCategorizedTags
+		self.tags = story.emitSimplerTags
 		
 		opts = {}
 		opts['story'] = story
