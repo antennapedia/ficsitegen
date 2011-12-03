@@ -374,3 +374,38 @@ module BannerMixin
 		return File.join($input, 'static', pieces[5])
 	end
 end
+
+## experiment in progress
+class SimplerStory
+	attr_accessor :owner
+	attr_accessor :created
+	attr_accessor :modified
+	attr_accessor :title
+	attr_accessor :body
+	attr_accessor :icon
+	attr_accessor :tags
+	attr_accessor :version
+	
+	def self.template
+		if @template.nil?
+			@template = Haml::Engine.new(File.open($templates + 'simplerYamlBody.haml').read, options = { :format => :html5, :ugly => false })
+		end
+		@template
+	end
+	
+	def initialize(story)
+		self.version = 0
+		self.icon = ''
+
+		self.owner = story.authors.first.name
+		self.created = story.published
+		self.modified = story.modified
+		self.title = story.title
+		self.tags = story.emitCategorizedTags
+		
+		opts = {}
+		opts['story'] = story
+		self.body = SimplerStory.template.render(opts)
+	end
+	
+end

@@ -292,6 +292,19 @@ def analyzeTags
 	pp singleUseTags
 end
 
+def generateSimplerYaml
+	puts "Generating simpler yaml files..."
+	FileUtils.mkdir_p(Pathname.new('simpler'))
+	Story.allSorted.each do |story|
+		puts story.title
+		translated = SimplerStory.new(story)
+		output = File.join('simpler', story.idtag + '.yaml')
+		outp =  File.new(output, 'w')
+		outp.puts translated.to_yaml
+		outp.close
+	end
+end
+
 #-------------------------------------------------------------------------------
 # configuration file
 
@@ -395,6 +408,12 @@ def handleOptions
 			default false
 		end
 		
+		option :simpler do
+			long '--simpler'
+			desc 'Do not parse story files, just write simpler yaml files for experimentation'
+			default false
+		end
+		
 		separator ''
 		option :help do
 			short '-h'
@@ -432,6 +451,8 @@ if $0 == __FILE__
 
 	if Choice.choices[:analyzetags]
 		analyzeTags
+	elsif Choice.choices[:simpler]
+		generateSimplerYaml
 	else
 		main(Choice.choices)
 	end
