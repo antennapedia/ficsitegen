@@ -73,7 +73,6 @@ end
 def parseAllStoryFiles(lastmod, refresh)
 	dirty = false
 	Dir[File.join($input, "**", "*.yaml")].each do |f|
-		puts f
 		begin
 			fp = File.open(f)
 			modtime = fp.mtime.to_datetime

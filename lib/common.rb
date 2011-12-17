@@ -83,6 +83,11 @@ module TagMixin
 		@cat
 	end
 	
+	def hasCategory
+		self.splitName if @text.nil?
+		!@cat.nil?
+	end
+	
 	def text
 		self.splitName if @text.nil?
 		@text
@@ -100,6 +105,10 @@ module TagMixin
 
 	def <=>(other)
 		if self.class == other.class
+			if self.hasCategory != other.hasCategory
+				return -1 if self.hasCategory
+				return 1
+			end
 			if self.sorttext == other.sorttext
 				return self.decorator <=> other.decorator
 			else
