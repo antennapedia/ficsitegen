@@ -299,7 +299,7 @@ def generateSimplerYaml
 		translated = SimplerStory.new(story)
 		output = File.join('simpler', story.idtag + '.yaml')
 		outp =  File.new(output, 'w')
-		outp.puts translated.to_yaml(:indentation => 4, :canonical => true)
+		outp.puts translated.to_yaml(:indentation => 4)
 		outp.close
 	end
 end
