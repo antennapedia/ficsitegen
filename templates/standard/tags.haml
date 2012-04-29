@@ -10,8 +10,7 @@
 		<meta name="generator" content="The Dread Machine 0.1" />
 		<link rel="stylesheet" rev="stylesheet" href="css/styles.css" />
 		<link rel="alternate" type="application/atom+xml"  href="/feeds/recent.atom" />
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
-		<script type="text/javascript" src="scripts/jquery.isotope.min.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 		:javascript
 			$(document).ready(function()
 			{
@@ -21,9 +20,6 @@
 					frag = unescape(frag);
 					displayTagContents(frag);
 				}
-				$('#tags').isotope( {
-					masonry: { columnWidth: 20 }
-				});
 			});
 
 			var tagdata = new Array();

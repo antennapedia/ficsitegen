@@ -8,6 +8,7 @@
 		<meta name="generator" content="The Dread Machine 0.1" />
 		<link rel="stylesheet" rev="stylesheet" href="../css/styles.css" />
 		<link rel="alternate" type="application/atom+xml"  href="/feeds/recent.atom" />
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 		- banner = story.getBanner
 		- if banner != nil && banner.width != nil
 			- width = Integer(banner.width)
@@ -25,7 +26,19 @@
 					  padding: 10px 10px 10px #{pad}px
 					  width: #{w}px
 					  min-height: #{banner.height}px
-	
+		- else
+			- pr = story.pairing_main.downcase
+			- if pr == 'giles/buffy'
+				- img = '../css/giles_buffy_header.jpg'
+			- elsif pr == 'giles/xander'
+				- img = '../css/giles_xander_header.jpg'
+			- elsif pr == 'giles/ethan'
+				- img = '../css/giles_ethan_header.jpg'
+			- if img
+				%style{:type => "text/css"}
+					:sass
+						#nav
+						  background-image: url(#{img})	
 	%body
 		%div#nav
 			= self['_page'].include('navigation.haml', {'fandoms'=> self['fandoms'], 'loc'=>'story'})
