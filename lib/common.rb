@@ -417,6 +417,11 @@ module BannerMixin
 		pieces = URI.split(self.url)
 		return File.join($input, 'static', pieces[5])
 	end
+	
+	def cssPath
+		pieces = URI.split(self.url)
+		return File.join('..', pieces[5])
+	end
 end
 
 ## experiment in progress
