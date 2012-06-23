@@ -1,0 +1,5 @@
+- story = self['story']
+- story.sections.each do |segment|
+	- if story.sections.size > 1
+		\### #{segment.title}
+	#{segment.content}

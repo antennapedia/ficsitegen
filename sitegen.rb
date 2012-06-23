@@ -304,6 +304,20 @@ def generateSimplerYaml
 	end
 end
 
+def generateKirjeJSON
+	require 'json'
+	puts "Generating kirje json..."
+	FileUtils.mkdir_p(Pathname.new('kirje'))
+	Story.allSorted.each do |story|
+		puts story.title
+		translated = KirjeStory.new(story)
+		output = File.join('kirje', story.idtag + '.json')
+		outp =  File.new(output, 'w')
+		outp.puts JSON.pretty_generate(translated.struct)
+		outp.close
+	end
+end
+
 #-------------------------------------------------------------------------------
 # configuration file
 
@@ -451,7 +465,8 @@ if $0 == __FILE__
 	if Choice.choices[:analyzetags]
 		analyzeTags
 	elsif Choice.choices[:simpler]
-		generateSimplerYaml
+		generateKirjeJSON
+		# generateSimplerYaml
 	else
 		main(Choice.choices)
 	end

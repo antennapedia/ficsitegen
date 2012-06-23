@@ -456,5 +456,71 @@ class SimplerStory
 		opts['story'] = story
 		self.body = SimplerStory.template.render(opts)
 	end
+end
+
+class KirjeSeries
+	attr_accessor :owner
+	attr_accessor :created
+	attr_accessor :modified
+	attr_accessor :title
+end
+
+class KirjeStory
+	attr_accessor :struct
 	
+	def self.template
+		if @template.nil?
+			@template = Haml::Engine.new(File.open($templates + 'kirjeYamlBody.haml').read, options = { :format => :html5, :ugly => false })
+		end
+		@template
+	end
+	
+	def initialize(story)
+		self.struct = Hash.new
+	
+		self.struct['version'] = 0
+		self.struct['owner'] = story.authors.first.name
+		self.struct['created'] = story.published
+		self.struct['modified'] = story.modified
+		self.struct['published'] = story.published
+		self.struct['is_published'] = true
+		self.struct['authors'] = []
+		self.struct['fandom'] = story.fandoms.first.idtag
+		self.struct['fandoms_additional'] = []
+		story.fandoms.each do |f|
+			self.struct['fandoms_additional'] << f.idtag if self.struct['fandom'] != f.idtag
+		end
+		self.struct['series'] = story.series.idtag if !story.series.nil?
+		self.struct['title'] = story.title
+		self.struct['notes'] = story.notes
+		self.struct['summary'] = story.summary
+		self.struct['pairing'] = story.pairing_main
+		self.struct['pairings_additional'] = []
+		story.pairings.each do |p|
+			if self.struct['pairing'] != p.name
+				self.struct['pairings_additional'] << p.name
+			end
+		end
+
+		self.struct['characters'] = []
+		self.struct['tags'] = []
+		story.tags.each do |t|
+			if !t.category.nil? && t.category.start_with?('c')
+				if t.decorator.length > 0
+					self.struct['tags'] << t.text
+				else
+					self.struct['characters'] << t.text
+				end
+			else
+				self.struct['tags'] << t.name
+			end
+		end
+		
+		self.struct['rating'] = story.rating
+		# warnings
+		
+		opts = {}
+		opts['story'] = story
+		self.struct['content'] = KirjeStory.template.render(opts)
+	end
 end
