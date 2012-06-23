@@ -459,10 +459,34 @@ class SimplerStory
 end
 
 class KirjeSeries
-	attr_accessor :owner
-	attr_accessor :created
-	attr_accessor :modified
-	attr_accessor :title
+	attr_accessor :struct
+
+	def initialize(series)
+		
+		self.struct = Hash.new
+		self.struct['version'] = 0
+		self.struct['idtag'] = series.idtag
+		if series.authors.first.nil?
+			self.struct['owner'] = 'antennapedia'
+		else
+			self.struct['owner'] = series.authors.first.name
+		end
+		self.struct['created'] = series.published
+		self.struct['modified'] = series.modified
+		self.struct['is_published'] = true
+		self.struct['title'] = series.title
+		self.struct['summary'] = series.summary
+		
+		self.struct['stories'] = []
+		series.storiesInOrder.each do |story|
+			self.struct['stories'] << story.idtag
+		end
+		
+		if series.hasBanner
+			b = series.getBanner
+			self.struct['banner'] = b.url
+		end
+	end
 end
 
 class KirjeStory
@@ -478,6 +502,7 @@ class KirjeStory
 	def initialize(story)
 		self.struct = Hash.new
 	
+		self.struct['idtag'] = story.idtag
 		self.struct['version'] = 0
 		self.struct['owner'] = story.authors.first.name
 		self.struct['created'] = story.published
@@ -485,6 +510,9 @@ class KirjeStory
 		self.struct['published'] = story.published
 		self.struct['is_published'] = true
 		self.struct['authors'] = []
+		story.authors.each do |a|
+			self.struct['authors'] << a.name
+		end
 		self.struct['fandom'] = story.fandoms.first.idtag
 		self.struct['fandoms_additional'] = []
 		story.fandoms.each do |f|

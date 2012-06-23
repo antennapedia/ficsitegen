@@ -308,6 +308,16 @@ def generateKirjeJSON
 	require 'json'
 	puts "Generating kirje json..."
 	FileUtils.mkdir_p(Pathname.new('kirje'))
+
+	Series.all.each do |series|
+		puts "Series: #{series.idtag}"
+		translated = KirjeSeries.new(series)
+		output = File.join('kirje', 'series_' + series.idtag + '.json')
+		outp =  File.new(output, 'w')
+		outp.puts JSON.pretty_generate(translated.struct)
+		outp.close
+	end
+
 	Story.allSorted.each do |story|
 		puts story.title
 		translated = KirjeStory.new(story)
@@ -315,7 +325,7 @@ def generateKirjeJSON
 		outp =  File.new(output, 'w')
 		outp.puts JSON.pretty_generate(translated.struct)
 		outp.close
-	end
+	end	
 end
 
 #-------------------------------------------------------------------------------
