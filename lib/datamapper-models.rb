@@ -241,14 +241,18 @@ class Series
 	def storiesInOrder
 		self.stories
 	end
-
-	def numeric_date
+	
+	def modifiedLast
 		latest = nil
 		self.stories.each do |s|
 			latest = s.published if latest == nil or s.published > latest
 		end
 		latest = Time.now if latest.nil?
-		return latest.strftime('%Y-%m-%d')
+		return latest
+	end
+
+	def numeric_date
+		return self.modifiedLast.strftime('%Y-%m-%d')
 	end	
 end
 

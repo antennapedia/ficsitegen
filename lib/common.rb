@@ -471,8 +471,8 @@ class KirjeSeries
 		else
 			self.struct['owner'] = series.authors.first.name
 		end
-		self.struct['created'] = series.published
-		self.struct['modified'] = series.modified
+		self.struct['created'] = series.modifiedLast
+		self.struct['modified'] = series.modifiedLast
 		self.struct['is_published'] = true
 		self.struct['title'] = series.title
 		self.struct['summary'] = series.summary
@@ -544,7 +544,16 @@ class KirjeStory
 			end
 		end
 		
-		self.struct['rating'] = story.rating
+		case story.rating
+		when 'adult'
+			self.struct['rating'] = 3
+		when 'mature'
+			self.struct['rating'] = 2
+		when 'general'
+			self.struct['rating'] = 1
+		else
+			self.struct['rating'] = 2
+		end
 		# warnings
 		
 		opts = {}
