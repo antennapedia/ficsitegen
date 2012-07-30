@@ -539,6 +539,8 @@ class KirjeStory
 				else
 					self.struct['characters'] << t.text
 				end
+			elsif !t.category.nil? && t.category.start_with?('f')
+				self.struct['fandoms_additional'] << t.text
 			else
 				self.struct['tags'] << t.name
 			end
