@@ -3,7 +3,7 @@
 # incompatible yaml serializations. Specifically, ohm nests object
 # attributes inside '_attributes'. Mongoid nests inside 'attributes'.
 # Datamapper doesn't nest at all.
-# 
+#
 # I do not want to get involved in overriding yaml serialization for the
 # classes. I might change my mind about that.
 
@@ -57,12 +57,12 @@ end
 # use inheritance.
 
 module TagMixin
-	# examples: c:fred, c:wilma, c:woobie!fred, f:flintstones, hurt/comfort 
+	# examples: c:fred, c:wilma, c:woobie!fred, f:flintstones, hurt/comfort
 	# @category: anything before the : in tag text
 	# @text: anything after the :
-	# @decorator: anything before a ! 
+	# @decorator: anything before a !
 	# @sorttext: tag text with decorator removed, so hurt!fred sorts with fred
-	
+
 	def splitName
 		@text = self.name
 		@decorator = ''
@@ -77,22 +77,22 @@ module TagMixin
 			@sorttext = @cat + ':' + @sorttext
 		end
 	end
-	
+
 	def category
 		self.splitName if @text.nil?
 		@cat
 	end
-	
+
 	def hasCategory
 		self.splitName if @text.nil?
 		!@cat.nil?
 	end
-	
+
 	def text
 		self.splitName if @text.nil?
 		@text
 	end
-	
+
 	def decorator
 		self.splitName if @text.nil?
 		@decorator
@@ -124,13 +124,13 @@ module SeriesMixin
 	def <=>(right)
 		return self.title <=> right.title
 	end
-	
+
 	def titleNoStopWords
 		result = self.title
 		result = result.gsub($stopWordKiller, '')
 		return result
 	end
-	
+
 	def url(absolute=true, includeAuthor = false)
 		result = ''
 		result = 'stories/' if absolute
@@ -150,7 +150,7 @@ module SeriesMixin
 		end
 		return pairtag + '_series_' + self.idtag + '.html'
 	end
-		
+
 	def printableurl(includeAuthor = false)
 		result = self.relativeurl(includeAuthor)
 		return File::join('printable', result)
@@ -164,12 +164,12 @@ module SeriesMixin
 	def printablePairing
 		return makePairingPrintable(self.pairing_main)
 	end
-	
+
 	def hasBanner
-		return (self.banner != nil) || 
+		return (self.banner != nil) ||
 				((self.stories.size > 0) && (self.stories.first.banner != nil))
 	end
-	
+
 	def getBanner
 		return self.banner if self.banner != nil
 		return nil if self.stories.size == 0
@@ -206,11 +206,11 @@ module StoryMixin
 		result = self.title.gsub($stopWordKiller, '')
 		return result
 	end
-	
+
 	def printablePairing
 		return makePairingPrintable(self.pairing_main)
 	end
-	
+
 	def idtag(includeAuthor = false)
 		result = ''
 		if includeAuthor
@@ -229,7 +229,7 @@ module StoryMixin
 			end
 			result = pairtag
 		end
-		
+
 		if self.series != nil
 			result = result + '_' + makeidtag(self.series.idtag)
 		end
@@ -245,7 +245,7 @@ module StoryMixin
 		result = result + self.relativeurl(includeAuthor)
 		return result
 	end
-	
+
 	def relativeurl(includeAuthor = false)
 		return self.idtag(includeAuthor) + '.html'
 	end
@@ -270,7 +270,7 @@ module StoryMixin
 		end
 		return result
 	end
-	
+
 	def wordcountFormatted
 		return formatLongNumber(self.wordcount)
 	end
@@ -279,7 +279,7 @@ module StoryMixin
 		l = self.tagsSorted.map {|t| t.name}
 		return l.join(', ')
 	end
-	
+
 	def getBanner
 		return self.banner if self.banner != nil
 		return self.series.banner if self.series != nil
@@ -296,7 +296,7 @@ module StoryMixin
 		end
 		return rating
 	end
-	
+
 	# As suitable for use in an external bookmarking site.
 	def emitCategorizedTags
 		tags = []
@@ -373,7 +373,7 @@ module StoryMixin
 
 	def <=>(other)
 		if self.class == other.class
-			if (self.series != nil) && (self.series == other.series) && 
+			if (self.series != nil) && (self.series == other.series) &&
 					(self.series_order != 0) && (self.series_order != other.series_order)
 				return (self.series_order <=> other.series_order)
 			end
@@ -388,7 +388,7 @@ module SectionMixin
 		return 'EMPTY' if self.content == nil
 		BlueCloth::new(self.content).to_html
 	end
-	
+
 	def idtag
 		return makeidtag(self.title)
 	end
@@ -396,7 +396,7 @@ end
 
 module BannerMixin
 	def getTag
-		result = "<img src=\"#{self.url}\" " 
+		result = "<img src=\"#{self.url}\" "
 		result = result + "width=\"#{self.width}\", height=\"#{self.height}\" "
 		if self.alt
 			result = result + "alt=\"#{self.alt}\" title=\"#{self.alt}\""
@@ -405,19 +405,19 @@ module BannerMixin
 		if self.link
 			result = "<a href=\"#{self.link}\">#{result}</a>"
 		end
-		return result		
+		return result
 	end
-	
+
 	def idtag
 		pieces = URI.split(self.url)
 		return File.basename(pieces[5])
 	end
-	
+
 	def fileloc
 		pieces = URI.split(self.url)
 		return File.join($input, 'static', pieces[5])
 	end
-	
+
 	def cssPath
 		pieces = URI.split(self.url)
 		return File.join('..', pieces[5])
@@ -434,14 +434,14 @@ class SimplerStory
 	attr_accessor :icon
 	attr_accessor :tags
 	attr_accessor :version
-	
+
 	def self.template
 		if @template.nil?
 			@template = Haml::Engine.new(File.open($templates + 'simplerYamlBody.haml').read, options = { :format => :html5, :ugly => false })
 		end
 		@template
 	end
-	
+
 	def initialize(story)
 		self.version = 0
 		self.icon = ''
@@ -451,7 +451,7 @@ class SimplerStory
 		self.modified = story.modified
 		self.title = story.title
 		self.tags = story.emitSimplerTags
-		
+
 		opts = {}
 		opts['story'] = story
 		self.body = SimplerStory.template.render(opts)
@@ -462,7 +462,7 @@ class KirjeSeries
 	attr_accessor :struct
 
 	def initialize(series)
-		
+
 		self.struct = Hash.new
 		self.struct['version'] = 0
 		self.struct['idtag'] = series.idtag
@@ -476,12 +476,12 @@ class KirjeSeries
 		self.struct['is_published'] = true
 		self.struct['title'] = series.title
 		self.struct['summary'] = series.summary
-		
+
 		self.struct['stories'] = []
 		series.storiesInOrder.each do |story|
 			self.struct['stories'] << story.idtag
 		end
-		
+
 		if series.hasBanner
 			b = series.getBanner
 			self.struct['banner'] = b.url
@@ -491,17 +491,21 @@ end
 
 class KirjeStory
 	attr_accessor :struct
-	
+
+	@@sherlockchars = ['holmes', 'watson']
+	@@whochars = ['jackie tyler', 'ninth doctor', 'rose', 'second doctor', 'zoe heriot']
+	@@removechars = ['apollo', 'artemis']
+
 	def self.template
 		if @template.nil?
 			@template = Haml::Engine.new(File.open($templates + 'kirjeYamlBody.haml').read, options = { :format => :html5, :ugly => false })
 		end
 		@template
 	end
-	
+
 	def initialize(story)
 		self.struct = Hash.new
-	
+
 		self.struct['idtag'] = story.idtag
 		self.struct['version'] = 0
 		self.struct['owner'] = story.authors.first.name
@@ -513,31 +517,45 @@ class KirjeStory
 		story.authors.each do |a|
 			self.struct['authors'] << a.name
 		end
-		self.struct['fandom'] = story.fandoms.first.idtag
-		self.struct['fandoms_additional'] = []
-		story.fandoms.each do |f|
-			self.struct['fandoms_additional'] << f.idtag if self.struct['fandom'] != f.idtag
-		end
+
 		self.struct['series'] = story.series.idtag if !story.series.nil?
 		self.struct['title'] = story.title
 		self.struct['notes'] = story.notes
 		self.struct['summary'] = story.summary
+
 		self.struct['pairing'] = story.pairing_main
-		self.struct['pairings_additional'] = []
+		self.struct['pairings_secondary'] = {}
+
+		self.struct['characters'] = {}
+		self.struct['pairings_secondary']
+		self.struct['fandom'] = story.fandoms.first.idtag
+		self.struct['fandoms_additional'] = []
+		story.fandoms.each do |f|
+			self.struct['fandoms_additional'] << f.idtag if self.struct['fandom'] != f.idtag
+			self.struct['characters'][f.idtag] = []
+			self.struct['pairings_secondary'][f.idtag] = []
+		end
+
 		story.pairings.each do |p|
 			if self.struct['pairing'] != p.name
-				self.struct['pairings_additional'] << p.name
+				self.struct['pairings_secondary'][story.fandoms.first.idtag] << p.name
 			end
 		end
 
-		self.struct['characters'] = []
 		self.struct['tags'] = []
 		story.tags.each do |t|
 			if !t.category.nil? && t.category.start_with?('c')
 				if t.decorator.length > 0
 					self.struct['tags'] << t.text
 				else
-					self.struct['characters'] << t.text
+					next if @@removechars.include?(t.text)
+					if @@whochars.include?(t.text)
+						self.struct['characters']['doctor_who'] << t.text
+					elsif @@sherlockchars.include?(t.text)
+						self.struct['characters']['sherlock_holmes'] << t.text
+					else
+						self.struct['characters']['btvs'] << t.text
+					end
 				end
 			elsif !t.category.nil? && t.category.start_with?('f')
 				self.struct['fandoms_additional'] << t.text
@@ -545,7 +563,7 @@ class KirjeStory
 				self.struct['tags'] << t.name
 			end
 		end
-		
+
 		case story.rating
 		when 'adult'
 			self.struct['rating'] = 3
@@ -556,8 +574,9 @@ class KirjeStory
 		else
 			self.struct['rating'] = 2
 		end
-		# warnings
-		
+
+		# warnings TODO
+
 		opts = {}
 		opts['story'] = story
 		self.struct['content'] = KirjeStory.template.render(opts)
