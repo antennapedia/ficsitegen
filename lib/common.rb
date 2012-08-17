@@ -495,6 +495,26 @@ class KirjeStory
 	@@sherlockchars = ['holmes', 'watson']
 	@@whochars = ['jackie tyler', 'ninth doctor', 'rose', 'second doctor', 'zoe heriot']
 	@@removechars = ['apollo', 'artemis']
+	@@btvstags = [
+		'core-four', 
+		'council', 
+		'episode:band-candy', 
+		'episode:becoming', 
+		'episode:dark-age', 
+		'episode:gift', 
+		'episode:grave', 
+		'episode:helpless', 
+		'episode:tabula-rasa', 
+		'episode:wish', 
+		'eyghon', 
+		'first-slayer', 
+		'fray', 
+		'melaka', 
+		'scoobies', 
+		'slayers', 
+		'watchers', 
+		'au:wishverse', 'wishverse'
+	]
 
 	def self.template
 		if @template.nil?
@@ -546,7 +566,7 @@ class KirjeStory
 		story.tags.each do |t|
 			if !t.category.nil? && t.category.start_with?('c')
 				if t.decorator.length > 0
-					self.struct['tags'] << t.text
+					self.struct['tags'] << story.fandoms.first.idtag + ':' + t.text
 				else
 					next if @@removechars.include?(t.text)
 					if @@whochars.include?(t.text)
@@ -559,6 +579,8 @@ class KirjeStory
 				end
 			elsif !t.category.nil? && t.category.start_with?('f')
 				self.struct['fandoms_additional'] << t.text
+			elsif @@btvstags.include?(t.name)
+				self.struct['tags'] << 'btvs:' + t.name
 			else
 				self.struct['tags'] << t.name
 			end
