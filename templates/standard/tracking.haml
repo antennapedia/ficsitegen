@@ -2,20 +2,7 @@
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
 </script>
-<script type="text/javascript">
-var pageTracker = _gat._getTracker("UA-4906593-1");
-pageTracker._initData();
-pageTracker._trackPageview();
-</script>
 :javascript
-	var _gauges = _gauges || [];
-	(function() {
-		var t   = document.createElement('script');
-		t.type  = 'text/javascript';
-		t.async = true;
-		t.id    = 'gauges-tracker';
-		t.setAttribute('data-site-id', '4fc233bb613f5d32ce000005');
-		t.src = '//secure.gaug.es/track.js';
-		var s = document.getElementsByTagName('script')[0];
-		s.parentNode.insertBefore(t, s);
-	})();
+    var pageTracker = _gat._getTracker("UA-4906593-1");
+    pageTracker._initData();
+    pageTracker._trackPageview();

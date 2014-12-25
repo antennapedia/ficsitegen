@@ -15,13 +15,12 @@
 			- pad = 20 + width
 			- w = 880 - width
 			- h = 10 + Integer(banner.height)
-			%style{:type => "text/css"}
-				:sass
-					#nav
-					  background-image: url(#{banner.cssPath})
-					  padding: 10px 10px 10px #{pad}px
-					  width: #{w}px
-					  min-height: #{banner.height}px
+			:sass
+				#nav
+				  background-image: url(#{banner.cssPath})
+				  padding: 10px 10px 10px #{pad}px
+				  width: #{w}px
+				  min-height: #{banner.height}px
 		- else
 			- pr = story.pairing_main.downcase
 			- if pr == 'giles/buffy'
@@ -30,13 +29,15 @@
 				- img = '../css/giles_xander_header.jpg'
 			- elsif pr == 'giles/ethan'
 				- img = '../css/giles_ethan_header.jpg'
+			- elsif pr == 'twelve/clara'
+				- img = '../css/twelve_clara_header.jpg'
 			- if img
-				%style{:type => "text/css"}
-					:sass
-						#nav
-						  background-image: url(#{img})	
+				:sass
+					#nav
+					  background-image: url(#{img})
+					  background-size: 374px 224px
 	%body
-		%div#nav
+		%div#nav.navoverride
 			= self['_page'].include('navigation.haml', {'fandoms'=> self['fandoms'], 'loc'=>'story'})
 			%h2
 				- if story.series
@@ -66,7 +67,7 @@
 					| <a href="#{story.commentary}">commentary</a>
 				- if story.awards
 					| <a href="#awards">awards</a>
-		
+
 		%div#content
 			- if story.series
 				%div#storylinks
@@ -97,7 +98,7 @@
 				- if story.nextInSeries
 					<hr class="lightrule" />
 					<p>Continued in <a href="#{story.nextInSeries.relativeurl}">#{story.nextInSeries.title}</a></p>
-	
+
 				%div#storylinks
 					<p><i>#{story.long_date}</i></p>
 					- if story.notes
@@ -105,9 +106,8 @@
 					= self['_page'].include('navigation.haml', {'fandoms'=> self['fandoms'], 'loc'=>'story'})
 				- if story.awards
 					%p= story.awards
-		
+
 			<hr />
 			%p
 				<small><a href="acknowledgments.html">Credits, acknowledgments, and disclaimers.</a></small>
 		= self['_page'].include('tracking.haml', {})
-
