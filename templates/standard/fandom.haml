@@ -13,7 +13,12 @@
 			= self['_page'].include('navigation.haml', {'fandoms'=> self['fandoms'], 'loc'=>'all'})
 			<h2 id="#{fandom.idtag}">#{fandom.title}</h2>
 			%p= fandom.description
-			<p>#{fandom.stories.size} stories, totalling #{self['wordcount']} words. Stories are grouped by pairing.</p>
+			<p>
+			- if fandom.stories.size == 1
+				1 story
+			- else
+				<p>#{fandom.stories.size} stories,
+			totalling #{self['wordcount']} words. Stories are grouped by pairing.</p>
 
 		%div#content
 			- indexItems = fandom.indexItems
@@ -29,14 +34,17 @@
 						%p.story_summary
 							<a id="#{item.idtag}" href="#{item.url()}" title="Tags: #{item.taglist()}">
 							<i>#{item.title}</i></a> - #{item.printablePairing}<br />
-							#{item.summary} <i>#{item.stories.size} stories.</i>
+							#{item.summary}
+							- if item.stories.size == 1
+								<i>1 story.</i>
+							- else
+								<i>#{item.stories.size} stories.</i>
 					- else
 						= self['_page'].include('story_blurb.haml', {'story'=>item, 'absoluteUrl' => true})
 			- if indexItems.size > 10
 				</div>
-			
+
 			<hr />
 			%p
 				<small><a href="acknowledgments.html">Credits, acknowledgments, and disclaimers.</a></small>
 		= self['_page'].include('tracking.haml', {})
-

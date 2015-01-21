@@ -20,16 +20,18 @@
 			- fandoms.each do |fandom|
 				%p
 					<i><a href="index_#{fandom.idtag}.html">#{fandom.title}</a>:</i>
-					#{fandom.stories.size} stories<br />
+					- if fandom.stories.size == 1
+						1 story<br>
+					- else
+						#{fandom.stories.size} stories<br>
 					#{fandom.description}
 			<hr />
 			%p
-				Want to take the archive on the go? All the standalone stories are in 
-				<a href="stories/printable/all_stories.epub">this handy epub book.</a> 
-				Each series is also available as an epub file; see the table of contents 
+				Want to take the archive on the go? All the standalone stories are in
+				<a href="stories/printable/all_stories.epub">this handy epub book.</a>
+				Each series is also available as an epub file; see the table of contents
 				page for a series you're interested in for the link.
 			%p
 				<small><a href="acknowledgments.html">Credits, acknowledgments, and disclaimers.</a><br />
 				<i>Last updated #{self['datestamp']}.</i></small>
 		= self['_page'].include('tracking.haml', {})
-	
