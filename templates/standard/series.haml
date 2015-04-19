@@ -24,6 +24,23 @@
 					  padding: 10px 10px 10px #{pad}px
 					  width: #{w}px
 					  min-height: #{series.banner.height}px
+		- else
+			- pr = series.pairing_main.downcase
+			- if pr == 'giles/buffy'
+				- img = '../css/giles_buffy_header.jpg'
+			- elsif pr == 'giles/xander'
+				- img = '../css/giles_xander_header.jpg'
+			- elsif pr == 'giles/ethan'
+				- img = '../css/giles_ethan_header.jpg'
+			- elsif pr == 'twelve/clara'
+				- img = '../css/twelve_clara_header.jpg'
+			- elsif pr == 'malcolm/clara'
+				- img = '../css/malcolm_clara_header.jpg'
+			- if img
+				:sass
+					#nav
+						background-image: url(#{img})
+						background-size: 374px 224px
 	%body
 		%div#nav
 			= self['_page'].include('navigation.haml', {'fandoms'=> self['fandoms'], 'loc'=>'story'})
@@ -33,7 +50,7 @@
 		%div#content
 			- series.storiesInOrder.each do |story|
 				= self['_page'].include('story_blurb.haml', {'story'=>story})
-		
+
 			%p
 				<a href="#{series.printableurl()}">All parts in one printable page.</a><br />
 				<a href="#{series.epuburl()}">Entire series as an Epub document for e-book readers.</a>
@@ -42,5 +59,3 @@
 			%p
 				<small><a href="acknowledgments.html">Credits, acknowledgments, and disclaimers.</a></small>
 		= self['_page'].include('tracking.haml', {})
-
-	
