@@ -3,6 +3,7 @@ development.db
 Gemfile.lock
 input
 site
+site-backup
 json
 test.rb
 .DS_Store
