@@ -4,7 +4,7 @@
 class Page
 	# Intended to be a more general page renderer
 	# don't need to repeat code to generate common page requirements
-	
+
 	attr_writer :details
 	attr_accessor :path
 	attr_accessor :prerequisites
@@ -18,11 +18,11 @@ class Page
 		@prerequisites = perq
 		@keywords = {}
 	end
-	
+
 	def applyDestinationPattern(args)
 		@path = @path % args
 	end
-	
+
 	def render
 		puts @message if @message != nil
 		self.generatePrereqs([])
@@ -30,7 +30,7 @@ class Page
 		fp.puts @template.render( @keywords)
 		fp.close
 	end
-	
+
 	def generatePrereqs(args)
 		@prerequisites = @prerequisites | args
 		@keywords['_page'] = self
@@ -51,7 +51,7 @@ class Page
 			end
 		end
 	end
-	
+
 	def include(tmpl, args)
 		partial = Haml::Engine.new(File.open($templates + tmpl).read)
 		partial.render(args)
@@ -67,19 +67,19 @@ class Page
 		result = result.gsub("/", "")
 		return result
 	end
-		
+
 	def escapeForJavascript(input, single=true, double=false)
 		result = input
 		result = result.gsub('"', '') if double
 		result = result.gsub("'", "") if single
 		return result
 	end
-		
+
 	def cleanForUrl(input)
 		#result = stripHTML(input) # TODO
 		return URI.escape(input)
 	end
-	
+
 	def ==(other)
 		return false if self.class != other.class
 		return self.path == other.path
@@ -90,19 +90,19 @@ class IndexPage < Page
 	def <=>(right)
 		return self.class <=> right.class
 	end
-	
+
 	def generatePrereqs(args)
 		super(args)
-		
+
 		wordcount = 0
 		stories = Story.all
 		stories.each do |s|
 			wordcount += s.wordcount
 		end
-		
+
 		@keywords['count'] = stories.size
 		@keywords['wordcount'] = formatLongNumber(wordcount)
-	end	
+	end
 end
 
 class YearPage < Page
@@ -110,7 +110,7 @@ class YearPage < Page
 		year = argl[0]
 		self.applyDestinationPattern([year, ])
 		@message = 'Generating story listing for %s...' % [year, ]
-		
+
 		ynum = Integer(year)
 		start = DateTime.new(ynum, 1, 1, 0, 0, 1, 0)
 		stop = DateTime.new(ynum, 12, 31, 23, 59, 59, 0)
@@ -152,7 +152,7 @@ class SeriesPage < Page
 		end
 		@keywords['wordcount'] = formatLongNumber(wordcount)
 	end
-	
+
 	def <=>(other)
 		return self.class <=> other.class if self.class != other.class
 		return self.keywords['series'].id <=> other.keywords['series'].id
@@ -176,9 +176,9 @@ class EPubBook < Page
 	def render
 		puts @message if @message != nil
 		self.generatePrereqs([])
-		
+
 		@keywords['author'] = Author.all.first.name # TODO
-		
+
 		@epub = GEPUB::Book.new('Fanfiction by '+@keywords['author']) # TODO templatable
 		@epub.author = @keywords['author']
 		@epub.publisher = $generator + ' ' + $version
@@ -192,7 +192,7 @@ class EPubBook < Page
 
 		i = 0
 		stories = Story.standalone
-		stories.each do |story|			
+		stories.each do |story|
 			i += 1
 			self.addStory(story, i)
 		end
@@ -207,16 +207,16 @@ class EPubBook < Page
 		else
 			@keywords.delete('bannertag')
 		end
-	
+
 		@keywords['story'] = story
-	
+
 		if story.sections.size > 1
 			tmpl = Haml::Engine.new(File.open($templates + 'epub_multiseg_contents.haml').read)
 			content = tmpl.render(@keywords)
 			item = @epub.add_item(story.relativeurl, StringIO.new(content))
 			@epub.spine << item
 			@epub.add_nav(item, String(indexnum) + ". " + story.title)
-	
+
 			tmpl = Haml::Engine.new(File.open($templates + 'epub_content.haml').read)
 			j = 0
 			story.sections.each do |segment|
@@ -255,23 +255,23 @@ class EPubSeriesBook < EPubBook
 		end
 		@keywords['wordcount'] = formatLongNumber(wordcount)
 	end
-	
+
 	def render
 		puts @message if @message != nil
 		self.generatePrereqs([])
 
 		require 'gepub'
 		require 'fileutils'
-		
+
 		series = @keywords['series']
 		@keywords['author'] = series.printableAuthor
-		
+
 		@epub = GEPUB::Book.new(series.title)
 		@epub.author = @keywords['author']
 		@epub.publisher = $generator + ' ' + $version
 		@epub.date = series.numeric_date
 		@epub.identifier = self.path
-		
+
 		if series.hasBanner
 			bobj = series.getBanner
 			banner = @epub.add_item(bobj.idtag, File.open(bobj.fileloc))
@@ -282,7 +282,7 @@ class EPubSeriesBook < EPubBook
 		cover = @epub.add_item("coverpage.html", StringIO.new(covertmpl.render(@keywords)))
 		@epub.spine << cover
 		@epub.add_nav(cover, 'Table of Contents')
-		
+
 		i = 0
 		series.storiesInOrder.each do |story|
 			i += 1
@@ -297,13 +297,13 @@ class StoryPage < Page
 	def details=(argl)
 		story = argl[0]
 		indent = argl[1]
-		
+
 		if indent
 			self.message = "    %s" % [story.title, ]
 		else
 			self.message = "Generating pages for %s..." % [story.title, ]
 		end
-		
+
 		self.applyDestinationPattern([story.url(), ])
 		self.keywords['story'] = story
 	end
@@ -344,7 +344,7 @@ class FandomPage < Page
 end
 
 class SizedItemPage < Page
-	def details=(argl)	
+	def details=(argl)
 		kind = argl[0]
 		if kind == 'tags'
 			tags = Tag.allSorted
@@ -358,18 +358,18 @@ class SizedItemPage < Page
 	def setSizedItem(label, items)
 		self.keywords['label'] = label
 		self.message = '    %s page...' % [label, ]
-		
+
 		# generate javascript, because it's hackier in the templates
 		# no, really, it would be hackier there.
 		jscript = ''
 		taglist = {}
 		items.each do |t|
 			cleaned = self.cleanForJavascript(t.name)
-			
-			jscript += "tagdata['#{cleaned}'] = new Array();\n"
-			jscript += "tagdata['#{cleaned}']['link'] = \"#{cleaned}_link\";\n"
-			jscript += "tagdata['#{cleaned}']['name'] = \"#{t.name}\";\n"
-			jscript += "tagdata['#{cleaned}']['contents'] = [\n";
+
+			jscript += "tagdata['#{cleaned}'] = {\n"
+			jscript += "	link: \"#{cleaned}_link\",\n"
+			jscript += "	name: \"#{t.name}\",\n"
+			jscript += "	contents: [\n"
 			if label == 'tags'
 				stories = Story.taggedWith(t)
 			elsif label == 'pairings'
@@ -378,13 +378,14 @@ class SizedItemPage < Page
 				stories = []
 			end
 			stories.each do |s|
-				jscript += "	\"#{s.idtag}\",\n"
+				jscript += "		\"#{s.idtag}\",\n"
 			end
-			jscript += "];\n"
+			jscript += "	],\n"
+			jscript += "};\n"
 			taglist[t] = stories
 		end
 		self.keywords['jscript'] = jscript
-		
+
 		res = self.calculateSizes(items, taglist)
 		self.keywords['sizes'] = res[1]
 		self.keywords[label] = res[0]
@@ -392,14 +393,14 @@ class SizedItemPage < Page
 
 	def calculateSizes(input, taglist)
 		return {} if input.length == 0
-		
+
 		firstt = taglist[input[0]]
-		
+
 		max = firstt.size
 		min = firstt.size
 		sizes = {}
 		output = []
-		
+
 		input.each do |item|
 			sz = taglist[item].size
 			next if sz == 0
@@ -409,11 +410,11 @@ class SizedItemPage < Page
 			min = sz if (sz < min)
 		end
 
-		range = Math.log(max) - Math.log(min)	
+		range = Math.log(max) - Math.log(min)
 		kMinSize = 75
 		kMaxSize = 225
 		kFontRange = kMaxSize - kMinSize
-		
+
 		output.each do |item|
 			next if taglist[item].size == 0
 			weight = (Math.log(sizes[item]) - Math.log(min)) / range
@@ -441,35 +442,35 @@ class FeedPage < Page
 	def <=>(right)
 		return self.class <=> right.class
 	end
-	
+
 	def render
 		puts self.message if self.message
 		self.generatePrereqs([])
-	
+
 		site = @keywords['site']
 		latest = @keywords['latest']
-	
+
 		urlstart = site.url
-		
+
 		feed = AtomFeed.new
 		feed.title = site.title
 		feed.subtitle = site.subtitle
 		feed.addLink(urlstart + 'feeds/recent.atom', 'self')
 		feed.addLink(urlstart, 'alternate')
 		feed.updated = latest.first.publicationDateTime
-		
+
 		authors = {}
-		
+
 		latest.each do |s|
 			entry = AtomEntry.new
 			entry.title = s.title
-			
+
 			content = @template.render(s)
 			entry.summary = s.summary
 			entry.content = AtomContent.new(content, 'html')
 			entry.updated = s.publicationDateTime
 			entry.addLink(urlstart + s.url, 'alternate')
-			
+
 			s.authors.each do |a|
 				if authors.has_key?(a.name)
 					person = authors[a.name]
@@ -479,22 +480,22 @@ class FeedPage < Page
 				end
 				entry.authors << person
 			end
-			
+
 			s.tagsSorted.each do |t|
 				entry.categories << t.name
 			end
-	
+
 			feed.entries << entry
 		end
-		
+
 		authors.each do |a|
 			feed.authors << a[1]
 		end
-		
+
 		fp = File.new(@path, 'w')
 		fp.puts(feed.atom)
 		fp.close
-	end	
+	end
 end
 
 def pageFactory(type, *args)
@@ -537,7 +538,7 @@ def pageFactory(type, *args)
 		puts "Unknown page type: #{type}; falling back to generic"
 		page = Page.new
 	end
-	
+
 	page.details = args
 	return page
 end
@@ -572,7 +573,7 @@ def generateStoryPage(story, indent=false)
 		markDirty(pageFactory(:feeds))
 	end
 end
-		
+
 def generateListingForYear(year)
 	page = pageFactory(:year, year)
 	markDirty(page)
@@ -613,7 +614,7 @@ def generateCSS(lastmod)
 	stylesheets.each do |candidate|
 		destination = candidate.sub(/\.sass$/, '.css')
 		destination.sub!($templates, $output+'/css/')
-		if !File.exist?(destination) || leftIsNewer(candidate, destination)		
+		if !File.exist?(destination) || leftIsNewer(candidate, destination)
 			puts "   compiling stylesheet %s" % [File.basename(candidate), ]
 			data = File.read(candidate)
 			engine = Sass::Engine.new(data)
@@ -648,7 +649,7 @@ def checkForUpdatedTemplates(lastmod, options)
 	markDirty(pageFactory(:feeds)) if isNewerTemplate('story_feed.haml', lastmod)
 	markDirty(pageFactory(:pairings)) if isNewerTemplate('pairings.haml', lastmod)
 	markDirty(pageFactory(:tags)) if isNewerTemplate('tags.haml', lastmod)
-	
+
 	if isNewerTemplate('story_blurb.haml', lastmod)
 		markDirty(pageFactory(:latest))
 		markDirty(pageFactory(:pairings))
@@ -656,7 +657,7 @@ def checkForUpdatedTemplates(lastmod, options)
 		dofandoms = true
 		doseries = true
 	end
-	
+
 	if isNewerTemplate('static.haml', lastmod)
 		StaticPage.all.each do |f|
 			markDirty(pageFactory(:static, f))
