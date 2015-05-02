@@ -111,7 +111,7 @@ def main(options)
 	FileUtils.mkdir_p(outdir + 'feeds')
 	FileUtils.mkdir_p(outdir + 'stories')
 	FileUtils.mkdir_p(outdir + 'stories' + 'printable')
-	
+
 	lastmod = Site.lastModified
 	puts "Site last updated " + lastmod.strftime("%a, %d %b %Y %H:%M%p"),"\n"
 
@@ -127,7 +127,7 @@ def main(options)
 		storiesToUpdate = Story.standalone()
 		count = Story.totalCount
 		if count == 1
-			puts "Regenerating 1 story..." 
+			puts "Regenerating 1 story..."
 		else
 			puts "Regenerating all %d stories..." % [count, ]
 		end
@@ -145,7 +145,7 @@ def main(options)
 				count += 1
 			end
 		end
-	
+
 		if count == 1
 			puts "1 story was updated.\n\n"
 		else
@@ -154,25 +154,25 @@ def main(options)
 	else
 		puts "No stories were updated.\n\n"
 	end
-	
+
 	seriesToUpdate.each do |s|
 		generateSeriesPages(s)
 		s.fandoms.each do |f|
 			generateFandomPage(f)
 		end
 	end
-	
+
 	storiesToUpdate.each do |s|
 		generateStoryPage(s)
 		s.fandoms.each do |f|
 			generateFandomPage(f)
 		end
 	end
-	
+
 	if options[:year] > 0
 		generateListingForYear(options[:year])
 	end
-		
+
 	if dirty or options[:generate] or options[:index]
 		markDirty(pageFactory(:index))
 		markDirty(pageFactory(:story_index))
@@ -183,7 +183,7 @@ def main(options)
 		markDirty(pageFactory(:latest))
 		markDirty(pageFactory(:feeds))
 	end
-	
+
 	if options[:generate]
 		items = StaticPage.all
 	else
@@ -192,13 +192,13 @@ def main(options)
 	items.each do |p|
 		markDirty(pageFactory(:static, p))
 	end
-	
+
 	if options[:bookmarks]
 		markDirty(pageFactory(:bookmarks))
 	end
-	
+
 	processDirty()
-	
+
 	# a trifle ad hoc
 	updateStaticFiles(lastmod)
 	generateCSS(lastmod)
@@ -207,7 +207,7 @@ def main(options)
 	site = Site.default
 	site.modified = Time.now
 	site.save
-	
+
 	puts "Done; %d seconds elapsed." % [(Time.now - start), ]
 end
 
@@ -244,7 +244,7 @@ def rewriteLJLinks(input)
 	return result
 end
 
-# Reason #234 why Ruby is not ready for prime time: 
+# Reason #234 why Ruby is not ready for prime time:
 # Time and DateTime objects are incomparable.
 class Time
 	def to_datetime
@@ -285,7 +285,7 @@ def analyzeTags
 			singleUseTags << tag.name
 		else
 			# puts "    #{count}"
-		end	
+		end
 	end
 	puts "The following tags are used only once:"
 	pp singleUseTags
@@ -325,7 +325,7 @@ def generateKirjeJSON
 		outp =  File.new(output, 'w')
 		outp.puts JSON.pretty_generate(translated.struct)
 		outp.close
-	end	
+	end
 end
 
 #-------------------------------------------------------------------------------
@@ -353,14 +353,14 @@ def handleOptions
 	Choice.options do
 		header 'Run without options to look for files modified since the last site update time.'
 		header ''
-		
+
 		header 'Data storage options:'
 		option :mongo do
 			long '--mongo'
 			desc 'Store data in mongodb via mongoid'
 			default false
 		end
-		
+
 		option :redis do
 			long '--redis'
 			desc 'Store data in redis via ohm'
@@ -388,28 +388,28 @@ def handleOptions
 			desc 'regenerate all index files'
 			default false
 		end
-		
+
 		option :feeds do
 			short '-f'
 			long '--feeds'
 			desc 'regenerate all feed files'
 			default false
 		end
-		
+
 		option :epub do
 			short '-e'
 			long '--epub'
 			desc 'regenerate all epub files'
 			default false
 		end
-		
+
 		option :generate do
 			short '-g'
 			long '--generate'
 			desc 'regenerate all html output files'
 			default false
 		end
-		
+
 		option :year do
 			short '-y'
 			long '--year=YEAR'
@@ -417,33 +417,33 @@ def handleOptions
 			cast Integer
 			default 0
 		end
-		
+
 		option :bookmarks do
 			short '-b'
 			long '--bookmarks'
 			desc 'generate bookmarks file suitable for Pinboard import'
 			default false
 		end
-		
+
 		option :analyzetags do
 			long '--tags'
 			desc 'Do not parse story files, just perform tag analysis & cleanup'
 			default false
 		end
-		
+
 		option :simpler do
 			long '--simpler'
-			desc 'Do not parse story files, just write simpler yaml files for experimentation'
+			desc 'Do not parse story files, just write json files for experimentation'
 			default false
 		end
-		
+
 		separator ''
 		option :help do
 			short '-h'
 			long '--help'
 			desc 'Show this message'
 		end
-		
+
 		option :version do
 			short '-v'
 			long '--version'

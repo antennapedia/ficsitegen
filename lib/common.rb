@@ -493,26 +493,27 @@ class KirjeStory
 	attr_accessor :struct
 
 	@@sherlockchars = ['holmes', 'watson']
-	@@whochars = ['jackie tyler', 'ninth doctor', 'rose', 'second doctor', 'zoe heriot']
+	@@whochars = ['jackie tyler', 'ninth doctor', 'rose', 'second doctor', 'zoe heriot', 'twelfth doctor', 'clara oswald']
+	@@thickkchars = [ 'malcolm tucker' ]
 	@@removechars = ['apollo', 'artemis']
 	@@btvstags = [
-		'core-four', 
-		'council', 
-		'episode:band-candy', 
-		'episode:becoming', 
-		'episode:dark-age', 
-		'episode:gift', 
-		'episode:grave', 
-		'episode:helpless', 
-		'episode:tabula-rasa', 
-		'episode:wish', 
-		'eyghon', 
-		'first-slayer', 
-		'fray', 
-		'melaka', 
-		'scoobies', 
-		'slayers', 
-		'watchers', 
+		'core-four',
+		'council',
+		'episode:band-candy',
+		'episode:becoming',
+		'episode:dark-age',
+		'episode:gift',
+		'episode:grave',
+		'episode:helpless',
+		'episode:tabula-rasa',
+		'episode:wish',
+		'eyghon',
+		'first-slayer',
+		'fray',
+		'melaka',
+		'scoobies',
+		'slayers',
+		'watchers',
 		'au:wishverse', 'wishverse'
 	]
 
@@ -573,8 +574,12 @@ class KirjeStory
 						self.struct['characters']['doctor_who'] << t.text
 					elsif @@sherlockchars.include?(t.text)
 						self.struct['characters']['sherlock_holmes'] << t.text
-					else
+					elsif @@thickkchars.include?(t.text)
+						self.struct['characters']['the_thick_of_it'] << t.text
+					elsif self.struct['characters']['btvs']
 						self.struct['characters']['btvs'] << t.text
+					else
+						puts "whomp whomp #{t.text}"
 					end
 				end
 			elsif !t.category.nil? && t.category.start_with?('f')
