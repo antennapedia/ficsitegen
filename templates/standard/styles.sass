@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Lato:900,300,400)
+@import url(http://fonts.googleapis.com/css?family=Oswald:700,300|Merriweather)
 
 $backgroundcolor: white
 $foregroundcolor: black
@@ -13,9 +13,8 @@ html
 	height: 100%
 
 body
-	font-family: Lato, "GillSans-Light", "Gill Sans", sans-serif
-	font-weight: 300
-	font-size: 11pt
+	font-family: Merriweather, serif
+	font-size: 10pt
 	margin-left: 50px
 	margin-right: 50px
 	height: 100%
@@ -26,7 +25,10 @@ body
 	max-width: 900px
 
 #nav
-	background-image: url(giles_header.jpg)
+	font-family: Oswald, sans-serif
+	font-weight: 300
+	background-image: url(twelve_clara_header.jpg)
+	background-size: 374px 224px
 	background-repeat: no-repeat
 	background-position: 10px 10px
 	background-color: $foregroundcolor
@@ -37,25 +39,7 @@ body
 	padding-top: 10px
 	min-height: 234px
 	position: relative
-	font-size: 90%
 
-
-a
-	text-decoration: none
-	color: $contrastcolor
-	font-weight: 400
-
-	&:active
-		color: $contrastcolor
-
-	&:visited
-		color: $mediumcolor
-
-	&:hover, &:visited:hover
-		text-decoration: underline
-
-
-#nav
 	a
 		text-decoration: none
 		color: $contrastcolor
@@ -75,21 +59,40 @@ a
 			font-style: italic
 
 	h1
-		font-weight: 900
-		position: absolute
-		bottom: 0px
+		margin-bottom: 0px
 
 	h2
-		font-size: 1.75em
-		font-weight: 900
-		margin-top: .25em
+		font-size: 2em
+		margin-top: .5em
+		margin-bottom: 0
 
 	.info
 		line-height: 125%
 
+	p
+		font-family: Merriweather, serif
+		font-size: 9pt
 
-.sitetitle
-	font-size: larger
+a
+	text-decoration: none
+	color: $contrastcolor
+
+	&:active
+		color: $contrastcolor
+
+	&:visited
+		color: $mediumcolor
+
+	&:hover, &:visited:hover
+		text-decoration: underline
+
+
+h1, h2, h3, h4
+	font-family: 'Oswald', sans-serif
+	font-weight: 700
+
+h3
+	margin-bottom: 0px
 
 .story_summary
 	-webkit-border-radius: 10px
@@ -97,7 +100,7 @@ a
 	border-radius: 10px
 	margin-top: .5em
 	margin-right: .5em
-	padding: .3em
+	padding: .5em
 	background-color: $faintcolor
 
 #fandomlisting
@@ -125,7 +128,8 @@ a
 
 
 #storylinks
-	font-size: .85em
+	font-family: Oswald, sans-serif
+	font-weight: 300
 	background-color: $foregroundcolor
 	color: white
 	margin: 0 auto
@@ -136,39 +140,21 @@ a
 
 	a
 		color: $contrastcolor
-		font-weight: 400
-		letter-spacing: 1px
 		text-decoration: none
 		margin-top: 2px
 
+	a:hover
+		background: #101010 none repeat scroll 0 0
+		color: $mediumcolor
 
-.storylinks a:visited
-	color: $mediumcolor
-	font-weight: 400
-	letter-spacing: 1px
-	text-decoration: none
-	margin-top: 2px
-
-
-#storylinks a:hover
-	background: #101010 none repeat scroll 0 0
-	color: $mediumcolor
-
+	a:visited
+		color: $mediumcolor
+		text-decoration: none
+		margin-top: 2px
 
 #storybody
 	margin-top: 10px
 	max-width: 900px
-
-
-h2
-	font-weight: 900
-	font-size: 1.5em
-
-
-h3
-	font-weight: 900
-	font-size: 1.25em
-
 
 .ctary
 	font-style: italic
@@ -176,15 +162,12 @@ h3
 	background-color: $foregroundcolor
 	border: 1px solid $contrastcolor
 
-
 .ctary_inline
 	font-style: italic
 	background-color: $foregroundcolor
 
-
 img
 	border-style: none
-
 
 hr
 	border: none
@@ -216,11 +199,11 @@ blockquote
 	float: left
 	padding-right: 1em
 
-
 #tag_listing
 	margin-left: 394px
 
 .tag
+	font-family: Oswald, sans-serif
 	display: inline
 	padding: 3px
 	color: $darkestcolor

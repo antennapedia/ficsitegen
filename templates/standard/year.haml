@@ -4,6 +4,6 @@
 - self['stories'].each do |story|
 	%p
 		%a.storytitle{:href => story.url(self['absoluteUrl'])}= story.title
-		\- #{story.printablePairing}, #{story.rating}<br />
+		\- #{story.printablePairing}, #{story.rating}<br>
 		#{story.summary} 
 		#{story.wordcount} words. <i>#{story.numeric_date()}</i>.

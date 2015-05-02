@@ -33,7 +33,7 @@
 					- if item.class.name == "Series"
 						%p.story_summary
 							<a id="#{item.idtag}" href="#{item.url()}" title="Tags: #{item.taglist()}">
-							<i>#{item.title}</i></a> - #{item.printablePairing}<br />
+							<i>#{item.title}</i></a> - #{item.printablePairing}<br>
 							#{item.summary}
 							- if item.stories.size == 1
 								<i>1 story.</i>

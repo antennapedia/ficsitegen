@@ -18,9 +18,9 @@
 			:sass
 				#nav
 				  background-image: url(#{banner.cssPath})
+				  background-size: auto auto
 				  padding: 10px 10px 10px #{pad}px
-				  width: #{w}px
-				  min-height: #{banner.height}px
+				  min-height: #{h}px
 		- else
 			- pr = story.pairing_main.downcase
 			- if pr == 'giles/buffy'
@@ -37,7 +37,6 @@
 				:sass
 					#nav
 					  background-image: url(#{img})
-					  background-size: 374px 224px
 	%body
 		%div#nav.navoverride
 			= self['_page'].include('navigation.haml', {'fandoms'=> self['fandoms'], 'loc'=>'story'})
@@ -51,18 +50,18 @@
 				- story.pairings.each do |p|
 					- cleaned = self['_page'].cleanForJavascript(p.name)
 					- result = result + "<a href=\"../pairings.html\##{cleaned}\">#{p.printable}</a>" + ', '
-				#{result.chomp(', ')}<br />
+				#{result.chomp(', ')}<br>
 				<a href="../acknowledgments.html#ratings"><i>#{story.emitRating}</i></a>,
 				- if story.warnings == 'none'
 					no warnings
 				- else
 					#{story.warnings}
-				<br />
+				<br>
 				= self['_page'].include('_story_tags.haml', {'story'=> story, '_page' => self['_page'] })
 				| tags
 				- if banner != nil && banner.width != nil
-					<br />#{banner.alt} (<a href="#{banner.link}">link</a>)
-				<br /><br />#{story.wordcount} words
+					<br>#{banner.alt} (<a href="#{banner.link}">link</a>)
+				<br><br>#{story.wordcount} words
 				- if story.sections.size == 1
 					| <a href="#{story.sections[0].altlink}">alternative link</a>
 				- if story.commentary

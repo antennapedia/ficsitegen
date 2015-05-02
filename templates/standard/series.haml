@@ -17,13 +17,12 @@
 				:sass
 					#nav
 					  background-image: url(#{series.banner.url})
+					  background-size: auto auto
 					  background-repeat: no-repeat
 					  background-color: black
 					  color: white
 					  position: relative
 					  padding: 10px 10px 10px #{pad}px
-					  width: #{w}px
-					  min-height: #{series.banner.height}px
 		- else
 			- pr = series.pairing_main.downcase
 			- if pr == 'giles/buffy'
@@ -40,11 +39,10 @@
 				:sass
 					#nav
 						background-image: url(#{img})
-						background-size: 374px 224px
 	%body
 		%div#nav
 			= self['_page'].include('navigation.haml', {'fandoms'=> self['fandoms'], 'loc'=>'story'})
-			<br />
+			<br>
 			<h2 id="#{series.idtag}">#{series.title}</h2>
 			<p>#{series.summary} <i>#{self['wordcount']} words total.</i></p>
 		%div#content
@@ -52,7 +50,7 @@
 				= self['_page'].include('story_blurb.haml', {'story'=>story})
 
 			%p
-				<a href="#{series.printableurl()}">All parts in one printable page.</a><br />
+				<a href="#{series.printableurl()}">All parts in one printable page.</a><br>
 				<a href="#{series.epuburl()}">Entire series as an Epub document for e-book readers.</a>
 
 			<hr />

@@ -3,19 +3,19 @@
 	<b>Fandoms:</b>
 	- story.fandoms.each do |f|
 		= f.title
-	<br />
+	<br>
 - if story.fandoms.size == 1
-	<b>Fandom:</b> #{story.fandoms.first.title}<br />
+	<b>Fandom:</b> #{story.fandoms.first.title}<br>
 - if story.summary
 	%b Summary:
 	= story.summary
-	<br />
+	<br>
 - if story.rating
-	<b>Rating:</b> #{story.rating}<br />
+	<b>Rating:</b> #{story.rating}<br>
 - if story.notes
-	<b>Notes:</b> #{story.notes}<br />
+	<b>Notes:</b> #{story.notes}<br>
 - if story.warnings
-	<b>Warnings:</b> #{story.warnings}<br />
+	<b>Warnings:</b> #{story.warnings}<br>
 
 <hr class="lightrule" />
 - story.sections.each do |segment|

@@ -59,9 +59,8 @@
 					%div.tag_contents{:id => "#{story.idtag()}", :style => "display: none;"}
 						= self['_page'].include('story_blurb.haml', {'story'=>story, 'absoluteUrl' => true})
 
-			<br clear="both" />	
-			<hr />
+			<br clear="both">	
+			<hr>
 			%p
 				<small><a href="acknowledgments.html">Credits, acknowledgments, and disclaimers.</a></small>
 		= self['_page'].include('tracking.haml', {})
-
