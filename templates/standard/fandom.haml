@@ -10,6 +10,14 @@
 		<link rel="alternate" type="application/atom+xml"  href="/feeds/recent.atom" />
 	%body
 		%div#nav
+			- if fandom.idtag == 'the_thick_of_it'
+				- img = 'css/malcolm_clara_header.jpg'
+			- elsif fandom.idtag == 'btvs'
+				- img = 'css/giles_header.jpg'
+			- if img
+				:sass
+					#nav
+						background-image: url(#{img})
 			= self['_page'].include('navigation.haml', {'fandoms'=> self['fandoms'], 'loc'=>'all'})
 			<h2 id="#{fandom.idtag}">#{fandom.title}</h2>
 			%p= fandom.description
