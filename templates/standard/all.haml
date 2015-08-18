@@ -9,58 +9,58 @@
 		<meta name="generator" content="The Dread Machine 0.1" />
 		<link rel="stylesheet" rev="stylesheet" href="css/styles.css" />
 		<link rel="alternate" type="application/atom+xml"  href="/feeds/recent.atom" />
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
-		<script type="text/javascript" src="scripts/jquery.metadata.js"></script> 
-		<script type="text/javascript" src="scripts/jquery.tablesorter.min.js"></script> 
-		:javascript 
-			$.tablesorter.addParser({ 
-				id: 'titles', 
-				is: function(v) { 
-					return false; 
-				}, 
-				format: function(v) { 
+		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+		<script type="text/javascript" src="scripts/jquery.metadata.js"></script>
+		<script type="text/javascript" src="scripts/jquery.tablesorter.min.js"></script>
+		:javascript
+			$.tablesorter.addParser({
+				id: 'titles',
+				is: function(v) {
+					return false;
+				},
+				format: function(v) {
 					if (!v) return '';
 					v = v.replace(/^(The|A|An)\s+/i, "");
 					return v.toLowerCase();
-				}, 
-				// set type, either numeric or text 
-				type: 'text' 
-			}); 
-			$.tablesorter.addParser({ 
-				id: 'ratings', 
-				is: function(v) { 
-					return false; 
-				}, 
-				format: function(v) { 
+				},
+				// set type, either numeric or text
+				type: 'text'
+			});
+			$.tablesorter.addParser({
+				id: 'ratings',
+				is: function(v) {
+					return false;
+				},
+				format: function(v) {
 					if (v == "general") return 0;
 					if (v == "mature") return 1;
 					if (v == "adult") return 2;
 					return 4;
-				}, 
-				type: 'numeric' 
-			}); 
-			$.tablesorter.addParser({ 
-				id: 'counts', 
-				is: function(v) { 
-					return false; 
-				}, 
-				format: function(v) { 
+				},
+				type: 'numeric'
+			});
+			$.tablesorter.addParser({
+				id: 'counts',
+				is: function(v) {
+					return false;
+				},
+				format: function(v) {
 					v = v.replace(/,/g, "");
 					v = v.replace(/(&nbsp;)$/, "");
 					return v;
-				}, 
-				type: 'numeric' 
-			}); 
-			$(document).ready(function() { 
+				},
+				type: 'numeric'
+			});
+			$(document).ready(function() {
 				$("#stories").tablesorter({
 					widgets: ['zebra', ],
-					headers: { 
-						0: { sorter:'titles' }, 
-						2: { sorter:'ratings' }, 
+					headers: {
+						0: { sorter:'titles' },
+						2: { sorter:'ratings' },
 						3: { sorter:'counts' },
-					} 
-				}); 
-			} ); 
+					}
+				});
+			} );
 
 	%body
 		%div#nav
@@ -83,7 +83,7 @@
 							%td.rating= story.rating
 							%td{:style => "text-align: right; padding-right: 1em;"} #{story.wordcountFormatted}&nbsp;
 							%td= story.numeric_date
-			
+
 				%tfoot
 					%tr
 						%th.title Title
@@ -95,4 +95,3 @@
 			%p
 				<small><a href="acknowledgments.html">Credits, acknowledgments, and disclaimers.</a></small>
 		= self['_page'].include('tracking.haml', {})
-	
