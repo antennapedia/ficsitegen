@@ -50,7 +50,7 @@ class Site
 		return default.modified if default != nil && default.modified != nil
 		return $earliestDate
 	end
-	
+
 	def loadFromYaml(input)
 		self.subtitle = input.subtitle if input.subtitle != self.subtitle && (self.subtitle != input.subtitle)
 		self.url = input.url if input.url != nil && (self.url != input.url)
@@ -77,12 +77,12 @@ end
 class Author
 	include DataMapper::Resource
 	property :id, Serial
-	
+
 	property :name, String, :required => true
 	property :login, String
 	property :email, String, :unique => true
 	property :url, Text
-	
+
 	def loadFromYaml(input)
 		self.name = input.name if input.name != nil && (self.name != input.name)
 		self.login = input.login if input.login != nil && (self.login != input.login)
@@ -129,7 +129,7 @@ class Fandom
 	property :title, String
 	property :description, Text
 	property :default, Boolean
-	
+
 	def loadFromYaml(input)
 		self.title = input.title if input.title != self.title && (self.title != input.title)
 		self.description = input.description if input.description != nil && (self.description != input.description)
@@ -152,7 +152,7 @@ class Fandom
 		result.sort
 		return result
 	end
-	
+
 	def indexItems
 		result = []
 		self.series.each do |s|
@@ -170,7 +170,7 @@ class Fandom
 	def self.default
 		Fandom.first(:default => true)
 	end
-	
+
 	def self.allSorted
 		Fandom.all
 	end
@@ -205,7 +205,7 @@ class Series
 	property :idtag, String, :index => :unique
 	property :title, String
 	property :summary, String
-	has n, :stories, :order => [ :series_order.asc]	
+	has n, :stories, :order => [ :series_order.asc]
 	has n, :authors, :through => Resource
 	has n, :fandoms, :through => Resource
 	belongs_to :banner, :required => false
@@ -213,7 +213,7 @@ class Series
 
 	property :modified, DateTime
 	property :published, DateTime
-	
+
 	attr :bannerurl
 
 	def loadFromYaml(input)
@@ -241,7 +241,7 @@ class Series
 	def storiesInOrder
 		self.stories
 	end
-	
+
 	def modifiedLast
 		latest = nil
 		self.stories.each do |s|
@@ -253,7 +253,7 @@ class Series
 
 	def numeric_date
 		return self.modifiedLast.strftime('%Y-%m-%d')
-	end	
+	end
 end
 
 class Story
@@ -267,7 +267,7 @@ class Story
 	has n, :pairings, :through => Resource
 
 	has_tags_on :tags
-	
+
 	property :source, String, :key => true
 	property :title, String, :key => true
 	property :awards, String
@@ -292,13 +292,13 @@ class Story
 	property :pairing_main, String
 
 	def self.standalone
-		return Story.all(:series => nil).sort   
+		return Story.all(:series => nil).sort
 	end
-	
+
 	def self.totalCount
 		Story.count
 	end
-	
+
 	def self.allSorted
 		return Story.all().sort
 	end
@@ -315,15 +315,15 @@ class Story
 	def self.modifiedSince(lastmod)
 		Story.all(:modified.gt => lastmod)
 	end
-	
+
 	def self.publishedBetween(start, stop)
 		Story.all(:published.gte => start, :published.lte => stop, :order => [ :published.asc ])
 	end
-	
+
 	def self.fetchRecent(count)
 		Story.all(:limit => count, :order => [ :published.desc ])
 	end
-	
+
 	def wouldBeInLatest
 		fencepost = Story.first(:limit => 1, :offset => 10, :order => [ :published.desc ])
 		return fencepost.nil? || self.published > fencepost.published
@@ -331,11 +331,11 @@ class Story
 
 	# authorLink
 	# authorList
-	
+
 	def publicationDateTime
 		return self.published
 	end
-	
+
 	def altlink
 		if self.sections != nil and self.sections.length > 0
 			return self.sections[0].altlink
@@ -354,7 +354,7 @@ class Story
 		end
 		return @previousInSeries
 	end
-	
+
 	def nextInSeries
 		return nil if self.series == nil
 		if @nextInSeries == nil
@@ -373,11 +373,11 @@ class Story
 		else
 			puts "updating #{self.id}: '#{self.title}'"
 		end
-		
+
 		if item['title'] == nil
 			puts item['summary']
 		end
-		
+
 		self.title = item['title'] if (self.title != item['title'])
 		self.rating = item['rating'] if (self.rating != item['rating'])
 		self.summary = rewriteLJLinks(item['summary']) if (self.summary != item['summary'])
@@ -386,12 +386,12 @@ class Story
 		self.disclaimer = item['disclaimer'] if (self.disclaimer != item['disclaimer'])
 		self.commentary = item['commentary'] if (self.commentary != item['commentary'])
 		self.awards = item['awards'] if (self.awards != item['awards'])
-		
+
 		if item['bannerurl'] != nil
 			b = Banner.findOrCreate(item['bannerurl'])
 			self.banner = b if b != self.banner
 		end
-		
+
 		if item['published'].nil?
 			self.published = DateTime.now
 		elsif item['published'].kind_of?(DateTime)
@@ -401,11 +401,11 @@ class Story
 		else
 			self.published = DateTime.parse(item['published'])
 		end
-			
+
 		self.modified = modtime
-		
+
 		self.authors << Author.findOrCreate(item['author'])
-		
+
 		self.pairing_main = item['pairing_main'] if item['pairing_main'] != nil && (self.pairing_main != item['pairing_main'])
 		self.pairing_main = 'gen' if self.pairing_main == nil || self.pairing_main.length == 0
 		self.pairing_main.downcase!
@@ -415,11 +415,11 @@ class Story
 			self.pairings do |p|
 				self.pairings.delete(p)
 			end
-		
+
 			item['pairings'].each do |p|
 				foo = Pairing.findOrCreate(p)
 				self.pairings << foo
-			end			
+			end
 		end
 		foo = Pairing.findOrCreate(self.pairing_main)
 		self.pairings << foo if !self.pairings.include?(foo)
@@ -428,20 +428,20 @@ class Story
 			self.tag_list = item['tags'].join(', ')
 			self.save
 		end
-		
+
 		if item['fandoms'] != nil
 			self.fandoms = []
 			item['fandoms'].each do |f|
 				fandom = Fandom.findOrCreate(f)
-				self.fandoms << fandom 
+				self.fandoms << fandom
 			end
 		else
 			default = Fandom.default
 			if default != nil && !self.fandoms.include?(default)
-				self.fandoms << default 
+				self.fandoms << default
 			end
 		end
-		
+
 		self.series_order = item['series-order'] if (item['series-order'] != self.series_order)
 		if item['series-tag'] != nil
 			series = Series.findOrCreate(item['series-tag'])
@@ -450,7 +450,7 @@ class Story
 				series.stories << self
 				series.stories.sort
 			end
-			
+
 			self.fandoms.each do |f|
 				series.fandoms << f
 			end
@@ -459,7 +459,7 @@ class Story
 			end
 			series.save
 		end
-		
+
 		if item['parts'] != nil
 			i = 0
 			item['parts'].each do |part|
@@ -497,7 +497,7 @@ class Story
 
 			segment.save!
 		end
-		
+
 		self.wordcount = self.countWords
 
 		self.save
@@ -522,7 +522,7 @@ class Section
 
 	property :modified, DateTime
 	property :published, DateTime
-	
+
 end
 
 class Banner
@@ -581,7 +581,7 @@ class StaticPage
 	def self.findOrCreate(page)
 		return StaticPage.find_or_create(:page => page)
 	end
-	
+
 	def self.modifiedSince(lastmod)
 		StaticPage.all(:modified.gt => lastmod)
 	end
