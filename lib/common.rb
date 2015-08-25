@@ -493,8 +493,9 @@ class KirjeStory
 	attr_accessor :struct
 
 	@@sherlockchars = ['holmes', 'watson']
-	@@whochars = ['jackie tyler', 'ninth doctor', 'rose', 'second doctor', 'zoe heriot', 'twelfth doctor', 'clara oswald']
-	@@thickkchars = [ 'malcolm tucker' ]
+	@@whochars = ['jackie tyler', 'ninth doctor', 'rose', 'second doctor', 'zoe heriot', 'twelfth doctor', 'clara oswald', 'danny pink', 'missy', 'ace mcshane']
+	@@thickkchars = [ 'malcolm tucker', 'jamie macdonald' ]
+	@@hourchars = [ 'randall brown', 'lix storm' ]
 	@@removechars = ['apollo', 'artemis']
 	@@btvstags = [
 		'core-four',
@@ -576,6 +577,8 @@ class KirjeStory
 						self.struct['characters']['sherlock_holmes'] << t.text
 					elsif @@thickkchars.include?(t.text)
 						self.struct['characters']['the_thick_of_it'] << t.text
+					elsif @@hourchars.include?(t.text)
+						self.struct['characters']['the_hour'] << t.text
 					elsif self.struct['characters']['btvs']
 						self.struct['characters']['btvs'] << t.text
 					else
